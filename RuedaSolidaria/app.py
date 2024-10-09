@@ -16,9 +16,9 @@ mysql = MySQL(app)
 @app.route('/')
 def index():
     cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * FROM Alumnos")  # Consulta para obtener todos los alumnos
-    alumnos = cursor.fetchall()  # Recupera todos los resultados
-    cursor.close()  # Cierra la conexión del cursor
+    cursor.execute("SELECT * FROM Alumnos") 
+    alumnos = cursor.fetchall()  
+    cursor.close()  #
     return render_template('index.html', alumnos=alumnos)
 if __name__ == '__main__':
     app.run(debug=True)
