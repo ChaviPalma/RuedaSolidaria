@@ -1,47 +1,44 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-from ..modelo import usuario
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from ..modelo.usuario import Usuario
 from .. import db
+from werkzeug.security import generate_password_hash
 
 usuarios_bp = Blueprint('usuarios', __name__)
 
-@usuarios_bp.route('/usuarios')
-def listar_usuarios():
-    usuarios = usuario.query.all()
-    return render_template('usuarios/listar.html', usuarios=usuarios)
-
-@usuarios_bp.route('/usuarios/crear', methods=['GET', 'POST'])
+@usuarios_bp.route('/usuario_crear', methods=['GET', 'POST'])
 def crear_usuario():
     if request.method == 'POST':
-        email = request.form['email']
-        contrasena = request.form['contrasena']
-        admin_ID = request.form['admin_ID']
-        conductor_ID = request.form['conductor_ID']
-        alumno_ID = request.form['alumno_ID']
+        email = request.form.get('email')
+        contrasena = request.form.get('contrasena')
 
-        usuario = usuario(email=email, contrasena=contrasena, admin_ID=admin_ID, conductor_ID=conductor_ID, alumno_ID=alumno_ID)
-        db.session.add(usuario)
+        if not email or not contrasena:
+            flash('Todos los campos son obligatorios.', 'error')
+            return redirect(url_for('usuario.crear_usuario'))
+
+        contrasena_hash = generate_password_hash(contrasena)
+
+        nuevo_usuario = Usuario(email=email, contrasena=contrasena_hash)
+
+        db.session.add(nuevo_usuario)
         db.session.commit()
-        return redirect(url_for('usuarios.listar_usuarios'))
-    return render_template('usuarios/crear.html')
+        flash('Usuario creado exitosamente.', 'success')
+        return redirect(url_for('usuarios.crear_usuario'))
 
-@usuarios_bp.route('/usuarios/editar/<int:user_ID>', methods=['GET', 'POST'])
-def editar_usuario(user_ID):
-    usuario = usuario.query.get_or_404(user_ID)
+    return render_template('usuario_crear.html')
 
+@usuarios_bp.route('/usuario')
+def listar_usuarios():
+    usuarios = Usuario.query.all()
+    return render_template('usuario_listar.html', usuarios=usuarios)
+
+@usuarios_bp.route('/usuario/<int:id>/editar', methods=['GET', 'POST'])
+def editar_usuario(id):
+    usuario = Usuario.query.get_or_404(id)
     if request.method == 'POST':
-        usuario.email = request.form['email']
-        usuario.contrasena = request.form['contrasena']
-        usuario.admin_ID = request.form['admin_ID']
-        usuario.conductor_ID = request.form['conductor_ID']
-        usuario.alumno_ID = request.form['alumno_ID']
+        usuario.email = request.form.get('email')
+        if request.form.get('contrasena'):
+            usuario.contrasena = generate_password_hash(request.form.get('contrasena'))
         db.session.commit()
-        return redirect(url_for('usuarios.listar_usuarios'))
-
-    return render_template('usuarios/editar.html', usuario=usuario)
-
-@usuarios_bp.route('/usuarios/eliminar/<int:user_ID>')
-def eliminar_usuario(user_ID):
-    usuario = usuario.query.get_or_404(user_ID)
-    db.session.delete(usuario)
-    db.session.commit()
-    return redirect(url_for('usuarios.listar_usuarios'))
+        flash('Usuario actualizado exitosamente.', 'success')
+        return redirect(url_for('usuario.listar_usuarios'))
+    

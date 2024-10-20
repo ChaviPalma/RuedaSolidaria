@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from RuedaSolidaria import db
+from .. import db
 
 class Usuario(db.Model):
     __tablename__ = 'Usuarios'
