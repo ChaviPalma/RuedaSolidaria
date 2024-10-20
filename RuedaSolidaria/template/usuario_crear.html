@@ -5,17 +5,34 @@
 </head>
 <body>
     <h1>Crear Usuario</h1>
-    <form method="POST">
+
+    <!-- Mensajes de éxito o error -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('usuario.crear_usuario') }}">
         <label for="email">Email:</label>
-        <input type="text" name="email" required><br>
+        <input type="email" name="email" required>
+
         <label for="contrasena">Contraseña:</label>
-        <input type="password" name="contrasena" required><br>
+        <input type="password" name="contrasena" required>
+
         <label for="admin_ID">Admin ID:</label>
-        <input type="number" name="admin_ID"><br>
+        <input type="number" name="admin_ID">
+
         <label for="conductor_ID">Conductor ID:</label>
-        <input type="number" name="conductor_ID"><br>
+        <input type="number" name="conductor_ID">
+
         <label for="alumno_ID">Alumno ID:</label>
-        <input type="number" name="alumno_ID"><br>
+        <input type="number" name="alumno_ID">
+
         <button type="submit">Crear Usuario</button>
     </form>
 </body>
