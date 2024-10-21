@@ -3,10 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
     <title>Document</title>
 </head>
 <body>
-    hola mundo
-    <a href="{{ url_for('usuarios.crear_usuario') }}">xd</a>
+    <div class="contenedor-header">
+        <header>
+            <div class="logo">
+                <a href="#"><img id="logoim" src="" alt=""></a>
+            </div>
+            <nav id="nav">
+                <ul>
+                    <li><a href="#inicio" onclick="seleccionar()">INICIO</a></li>
+                    <li><a href="#sobremi" onclick="seleccionar()">QUIENES SOMOS</a></li>
+                    <li><a href="{{ url_for('usuarios.login') }}">INICIAR SESION</a></li>
+
+
+                    <li><a href="#contacto" onclick="seleccionar()">CONTACTO</a></li>
+                </ul>
+            </nav>
+            <div class="nav-responsive" onclick="mostrarOcultarMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </header>
+    </div>
+
 </body>
 </html>
