@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear Usuario</title>
+</head>
+<body>
+    <h1>Crear Usuario</h1>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('usuarios.crear_usuario') }}">
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" name="contrasena" required>
+
+        <button type="submit">Crear Usuario</button>
+    </form>
+</body>
+</html>
