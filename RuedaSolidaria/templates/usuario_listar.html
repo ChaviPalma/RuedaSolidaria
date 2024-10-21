@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Usuarios</title>
 </head>
 <body>
@@ -10,11 +12,6 @@
             <tr>
                 <th>ID</th>
                 <th>Email</th>
-                <th>Contraseña</th>
-                <th>Admin ID</th>
-                <th>Conductor ID</th>
-                <th>Alumno ID</th>
-                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -22,18 +19,9 @@
             <tr>
                 <td>{{ usuario.user_ID }}</td>
                 <td>{{ usuario.email }}</td>
-                <td>{{ usuario.contrasena }}</td>
-                <td>{{ usuario.admin_ID }}</td>
-                <td>{{ usuario.conductor_ID }}</td>
-                <td>{{ usuario.alumno_ID }}</td>
-                <td>
-                    <a href="{{ url_for('usuarios.editar_usuario', user_ID=usuario.user_ID) }}">Editar</a>
-                    <a href="{{ url_for('usuarios.eliminar_usuario', user_ID=usuario.user_ID) }}">Eliminar</a>
-                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{{ url_for('usuarios.crear_usuario') }}">Crear Nuevo Usuario</a>
 </body>
 </html>

@@ -9,16 +9,24 @@ def crear_usuario():
         email = request.form.get('email')
         contrasena = request.form.get('contrasena')
 
+
         usuario_model = UsuarioModel()
         usuario_model.crear_usuario(email, contrasena)
+
+
 
         if not email or not contrasena:
             flash('Todos los campos son obligatorios.', 'error')
             return redirect(url_for('usuarios.crear_usuario')) 
 
+        usuario_model = UsuarioModel()
+        usuario_model.crear_usuario(email, contrasena)
+
+
         return redirect(url_for('usuarios.crear_usuario'))
 
     return render_template('usuario_crear.html')
+
 
 @usuarios_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -55,3 +63,10 @@ def estudiante():
 @usuarios_bp.route('/conductor')
 def conductor():
     return render_template('conductor.html')  # Asegúrate de tener este archivo en templates
+
+@usuarios_bp.route('/usuario_listar')
+def listar_usuarios():
+    usuario_model = UsuarioModel()
+    usuarios = usuario_model.listar_usuarios()
+    return render_template('usuario_listar.html', usuarios=usuarios)
+
