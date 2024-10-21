@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear Conductor</title>
+</head>
+<body>
+    <h1>Crear Conductor</h1>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('conductores.crear_conductor') }}">
+        <label for="conductor_id">ID del Conductor:</label>
+        <input type="number" name="conductor_id" required>
+
+        <label for="pnombre_cond">Primer Nombre:</label>
+        <input type="text" name="pnombre_cond" required>
+
+        <label for="snombre_cond">Segundo Nombre:</label>
+        <input type="text" name="snombre_cond">
+
+        <label for="appaterno_cond">Apellido Paterno:</label>
+        <input type="text" name="appaterno_cond">
+
+        <label for="apmaterno_cond">Apellido Materno:</label>
+        <input type="text" name="apmaterno_cond">
+
+        <label for="inst_id">ID del Establecimiento:</label>
+        <input type="number" name="inst_id" required>
+
+        <button type="submit">Crear Conductor</button>
+    </form>
+</body>
+</html>
