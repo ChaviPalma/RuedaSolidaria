@@ -28,5 +28,5 @@ def crear_conductor():
 @conductores_bp.route('/conductor_listar')
 def listar_conductores():
     conductor_model = ConductorModel()
-    conductores = conductor_model.listar_conductores()
-    return render_template('conductor_listar.html', conductores=conductores)
+    conductores = conductor_model.listar_conductores()  
+    return render_template('conductor_listar.html', conductores=conductores)  
