@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Conductores</title>
+</head>
+<body>
+    <h1>Lista de Conductores</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID del Conductor</th>
+                <th>Primer Nombre</th>
+                <th>Segundo Nombre</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>ID del Establecimiento</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for conductor in conductores %}
+            <tr>
+                <td>{{ conductor.conductor_ID }}</td>
+                <td>{{ conductor.pnombre_cond }}</td>
+                <td>{{ conductor.snombre_cond }}</td>
+                <td>{{ conductor.appaterno_cond }}</td>
+                <td>{{ conductor.apmaterno_cond }}</td>
+                <td>{{ conductor.inst_ID }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
