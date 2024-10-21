@@ -1,10 +1,7 @@
-
 from flask import Flask, render_template
-from controlador.usuario_controlador import usuarios_bp
 from controlador.usuario_controlador import usuarios_bp;
 from controlador.conductor_controlador import conductores_bp
 import mysql.connector
-
 
 app = Flask(__name__)
 app.secret_key = 'admin123'
