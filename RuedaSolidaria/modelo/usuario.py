@@ -60,6 +60,7 @@ class UsuarioModel:
     
    
     def listar_usuarios(self): 
+
         try:
             query = "SELECT user_ID, email, admin_ID, conductor_ID, alumno_ID FROM USUARIOS"
             self.cursor.execute(query)
@@ -67,7 +68,7 @@ class UsuarioModel:
 
             
             from collections import namedtuple
-            
+
             Usuario = namedtuple('Usuario', 'user_ID, email, admin_ID, conductor_ID, alumno_ID')  
             usuarios = [Usuario(*usuario) for usuario in usuarios]
 
