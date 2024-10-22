@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Alumnos</title>
+</head>
+<body>
+    <h1>Lista de Alumnos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Alumno</th>
+                <th>Primer Nombre</th>
+                <th>Segundo Nombre</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>ID Establecimiento</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alumno in alumnos %}
+            <tr>
+                <td>{{ alumno.alumno_ID }}</td>
+                <td>{{ alumno.pnombre_alum }}</td>
+                <td>{{ alumno.snombre_alum }}</td>
+                <td>{{ alumno.apaterno_alum }}</td>
+                <td>{{ alumno.amaterno_alum }}</td>
+                <td>{{ alumno.inst_ID }}</td>
+                <td>
+                    <a href="{{ url_for('alumnos.buscar_alumno', alumno_ID=alumno.alumno_ID) }}">Ver</a>
+                    <form method="POST" action="{{ url_for('alumnos.eliminar_alumno', alumno_ID=alumno.alumno_ID) }}" style="display:inline;">
+                        <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este alumno?');">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('alumnos.crear_alumno') }}">Crear Nuevo Alumno</a>
+</body>
+</html>

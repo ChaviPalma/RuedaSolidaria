@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Viajes</title>
+</head>
+<body>
+    <h1>Lista de Viajes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Viaje</th>
+                <th>ID Ruta</th>
+                <th>ID Alumno</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Calificación</th>
+                <th>Comentario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for viaje in viajes %}
+            <tr>
+                <td>{{ viaje.viaje_ID }}</td>
+                <td>{{ viaje.ID_ruta }}</td>
+                <td>{{ viaje.alumno_ID }}</td>
+                <td>{{ viaje.fecha }}</td>
+                <td>{{ viaje.hora }}</td>
+                <td>{{ viaje.calificacion }}</td>
+                <td>{{ viaje.comentario }}</td>
+                <td>
+                    <a href="{{ url_for('viajes.buscar_viaje', viaje_ID=viaje.viaje_ID) }}">Ver</a>
+                    <form method="POST" action="{{ url_for('viajes.eliminar_viaje', viaje_ID=viaje.viaje_ID) }}" style="display:inline;">
+                        <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este viaje?');">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('viajes.crear_viaje') }}">Crear Nuevo Viaje</a>
+</body>
+</html>

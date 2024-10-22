@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Rutas</title>
+</head>
+<body>
+    <h1>Lista de Rutas</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID Ruta</th>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>ID Establecimiento</th>
+                <th>ID Conductor</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ruta in rutas %}
+            <tr>
+                <td>{{ ruta.ID_ruta }}</td>
+                <td>{{ ruta.Origen }}</td>
+                <td>{{ ruta.Destino }}</td>
+                <td>{{ ruta.est_ID }}</td>
+                <td>{{ ruta.conductor_ID }}</td>
+                <td>
+                    <a href="{{ url_for('rutas.buscar_ruta', ID_ruta=ruta.ID_ruta) }}">Ver</a>
+                    <a href="{{ url_for('rutas.actualizar_ruta', ID_ruta=ruta.ID_ruta) }}">Editar</a>
+                    <form method="POST" action="{{ url_for('rutas.eliminar_ruta', ID_ruta=ruta.ID_ruta) }}">
+                        <button type="submit">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('rutas.crear_ruta') }}">Crear Ruta</a>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Ruta</title>
+</head>
+<body>
+    <h1>Crear Ruta</h1>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label for="ID_ruta">ID Ruta:</label>
+        <input type="number" name="ID_ruta" required><br>
+
+        <label for="Origen">Origen:</label>
+        <input type="text" name="Origen" required><br>
+
+        <label for="Destino">Destino:</label>
+        <input type="text" name="Destino" required><br>
+
+        <label for="est_ID">ID Establecimiento:</label>
+        <input type="number" name="est_ID" required><br>
+
+        <label for="conductor_ID">ID Conductor:</label>
+        <input type="number" name="conductor_ID" required><br>
+
+        <button type="submit">Crear Ruta</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for('rutas.listar_rutas') }}">Volver a la lista de Rutas</a>
+</body>
+</html>

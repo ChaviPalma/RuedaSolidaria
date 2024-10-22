@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from modelo.usuario import UsuarioModel
 import mysql.connector
 from werkzeug.security import generate_password_hash
-from sqlalchemy.exc import IntegrityError
+
 
 usuarios_bp = Blueprint('usuarios', __name__)
 

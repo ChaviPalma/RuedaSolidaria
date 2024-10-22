@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Administradores</title>
+</head>
+<body>
+    <h1>Lista de Administradores</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID del Administrador</th>
+                <th>Primer Nombre</th>
+                <th>Segundo Nombre</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for administrador in administradores %}
+            <tr>
+                <td>{{ administrador.admin_ID }}</td>
+                <td>{{ administrador.pnombre_admin }}</td>
+                <td>{{ administrador.snombre_admin }}</td>
+                <td>{{ administrador.apaterno_admin }}</td>
+                <td>{{ administrador.amaterno_admin }}</td>
+                <td>{{ administrador.email }}</td>
+                <td>{{ administrador.telefono }}</td>
+                <td>
+                    <a href="{{ url_for('administradores.buscar_administrador', admin_ID=administrador.admin_ID) }}">Ver</a>
+                    <form method="POST" action="{{ url_for('administradores.eliminar_administrador', admin_ID=administrador.admin_ID) }}" style="display:inline;">
+                        <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este administrador?');">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('administradores.crear_administrador') }}">Crear Nuevo Administrador</a>
+</body>
+</html>
