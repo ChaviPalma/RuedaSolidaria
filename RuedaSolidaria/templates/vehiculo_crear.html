@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Vehículo</title>
+</head>
+<body>
+    <h1>Crear Vehículo</h1>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('vehiculos.crear_vehiculo') }}">
+        <label for="vehi_ID">ID Vehículo:</label>
+        <input type="number" name="vehi_ID" required>
+
+        <label for="nombre_vehi">Nombre del Vehículo:</label>
+        <input type="text" name="nombre_vehi" required>
+
+        <label for="color">Color:</label>
+        <input type="text" name="color" required>
+
+        <label for="patente">Patente:</label>
+        <input type="text" name="patente" required>
+
+        <label for="conductor_ID">ID del Conductor:</label>
+        <input type="number" name="conductor_ID" required>
+
+        <button type="submit">Crear Vehículo</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Administrador</title>
+</head>
+<body>
+    <h1>Crear Administrador</h1>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label for="admin_ID">ID Administrador:</label>
+        <input type="number" name="admin_ID" required><br>
+
+        <label for="pnombre_admin">Primer Nombre:</label>
+        <input type="text" name="pnombre_admin" required><br>
+
+        <label for="snombre_admin">Segundo Nombre:</label>
+        <input type="text" name="snombre_admin"><br>
+
+        <label for="apaterno_admin">Apellido Paterno:</label>
+        <input type="text" name="apaterno_admin" required><br>
+
+        <label for="amaterno_admin">Apellido Materno:</label>
+        <input type="text" name="amaterno_admin" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" required><br>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="text" name="telefono" required><br>
+
+        <button type="submit">Crear Administrador</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for('administradores.listar_administradores') }}">Volver a la lista de Administradores</a>
+</body>
+</html>

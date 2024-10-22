@@ -1,6 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from modelo.usuario import UsuarioModel
 
+import mysql.connector
+from werkzeug.security import generate_password_hash
+
+
 usuarios_bp = Blueprint('usuarios', __name__)
 
 @usuarios_bp.route('/usuario_crear', methods=['GET', 'POST'])
@@ -37,17 +41,15 @@ def login():
         usuario_model = UsuarioModel()
         usuario = usuario_model.buscar_usuario(email)
 
-        if usuario and usuario[2] == contrasena:  # Asegúrate de que el índice 2 sea la contraseña
-            session['usuario_id'] = usuario[0]  # Guardar ID de usuario en la sesión
-            
-            # Extraer el dominio del email
+        if usuario and usuario[2] == contrasena:  
+            session['usuario_id'] = usuario[0]  
             dominio = email.split('@')[1]
             
-            # Redirigir dependiendo del dominio
+            
             if dominio == 'estudiante.com':
-                return redirect(url_for('usuarios.estudiante'))  # Redirige a estudiante.html
+                return redirect(url_for('usuarios.estudiante'))  
             elif dominio == 'conductor.com':
-                return redirect(url_for('usuarios.conductor'))  # Redirige a conductor.html
+                return redirect(url_for('usuarios.conductor'))  
             else:
                 flash('Dominio de email no reconocido', 'error')
 
@@ -58,11 +60,11 @@ def login():
 
 @usuarios_bp.route('/estudiante')
 def estudiante():
-    return render_template('estudiante.html')  # Asegúrate de tener este archivo en templates
+    return render_template('estudiante.html')  
 
 @usuarios_bp.route('/conductor')
 def conductor():
-    return render_template('conductor.html')  # Asegúrate de tener este archivo en templates
+    return render_template('conductor.html')  
 
 @usuarios_bp.route('/usuario_listar')
 def listar_usuarios():

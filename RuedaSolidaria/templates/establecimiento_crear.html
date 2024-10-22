@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Establecimiento</title>
+</head>
+<body>
+    <h1>Crear Establecimiento</h1>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('establecimientos.crear_establecimiento') }}">
+        <label for="est_ID">ID del Establecimiento:</label>
+        <input type="number" name="est_ID" required>
+
+        <label for="nombre_ins">Nombre del Establecimiento:</label>
+        <input type="text" name="nombre_ins" required>
+
+        <label for="direccion">Dirección:</label>
+        <input type="text" name="direccion" required>
+
+        <button type="submit">Crear Establecimiento</button>
+    </form>
+
+    <a href="{{ url_for('establecimientos.listar_establecimientos') }}">Volver a la lista de Establecimientos</a>
+</body>
+</html>
