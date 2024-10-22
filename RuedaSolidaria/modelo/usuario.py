@@ -24,15 +24,15 @@ class UsuarioModel:
             self.connection.close()
     
    
-    def listar_usuarios(self):  # <-- Quita user_ID y email de aquí
+    def listar_usuarios(self):  
         try:
             query = "SELECT user_ID, email, admin_ID, conductor_ID, alumno_ID FROM USUARIOS"
             self.cursor.execute(query)
             usuarios = self.cursor.fetchall()
 
-            # (Optional) If you want to use namedtuples:
+            
             from collections import namedtuple
-            # Asegúrate de que la namedtuple tenga todas las columnas de la consulta
+         
             Usuario = namedtuple('Usuario', 'user_ID, email, admin_ID, conductor_ID, alumno_ID')  
             usuarios = [Usuario(*usuario) for usuario in usuarios]
 

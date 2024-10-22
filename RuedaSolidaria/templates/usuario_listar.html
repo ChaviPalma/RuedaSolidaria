@@ -20,12 +20,7 @@
             <tr>
                 <td>{{ usuario.user_ID }}</td>
                 <td>{{ usuario.email }}</td>
-                <td>
-                    <a href="{{ url_for('usuarios.buscar_usuario', user_ID=usuario.user_ID) }}">Ver</a>
-                    <form method="POST" action="{{ url_for('usuarios.eliminar_usuario', user_ID=usuario.user_ID) }}" style="display:inline;">
-                        <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">Eliminar</button>
-                    </form>
-                </td>
+                
             </tr>
             {% endfor %}
         </tbody>
