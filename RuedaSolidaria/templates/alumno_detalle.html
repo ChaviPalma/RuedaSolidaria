@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Alumno</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Detalles del Alumno</h1>
+        
+        {% if alumno %}
+            <ul class="list-group mb-4">
+                <li class="list-group-item"><strong>ID:</strong> {{ alumno.alumno_ID }}</li>
+                <li class="list-group-item"><strong>Primer Nombre:</strong> {{ alumno.pnombre_alum }}</li>
+                <li class="list-group-item"><strong>Segundo Nombre:</strong> {{ alumno.snombre_alum }}</li>
+                <li class="list-group-item"><strong>Apellido Paterno:</strong> {{ alumno.apaterno_alum }}</li>
+                <li class="list-group-item"><strong>Apellido Materno:</strong> {{ alumno.amaterno_alum }}</li>
+                <li class="list-group-item"><strong>ID Institución:</strong> {{ alumno.inst_ID }}</li>
+            </ul>
+
+            <a href="{{ url_for('alumnos.actualizar_alumno', alumno_ID=alumno.alumno_ID) }}" class="btn btn-primary">Actualizar</a>
+            <form action="{{ url_for('alumnos.eliminar_alumno', alumno_ID=alumno.alumno_ID) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este alumno?');">Eliminar</button>
+            </form>
+            <a href="{{ url_for('alumnos.listar_alumnos') }}" class="btn btn-secondary">Volver a la lista</a>
+        {% else %}
+            <p>No se encontraron detalles para este alumno.</p>
+        {% endif %}
+    </div>
+
+    <!-- Enlace a jQuery y Bootstrap JS (opcional) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

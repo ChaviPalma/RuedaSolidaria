@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Vehículo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='detalle_vehiculo.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Detalles del Vehículo</h1>
+        
+        {% if vehiculo %}
+            <ul>
+                <li><strong>ID:</strong> {{ vehiculo.vehi_ID }}</li>
+                <li><strong>Nombre:</strong> {{ vehiculo.nombre_vehi }}</li>
+                <li><strong>Color:</strong> {{ vehiculo.color }}</li>
+                <li><strong>Patente:</strong> {{ vehiculo.patente }}</li>
+                <li><strong>ID Conductor:</strong> {{ vehiculo.conductor_ID }}</li>
+            </ul>
+
+            <a href="{{ url_for('vehiculos.actualizar_vehiculo', vehi_ID=vehiculo.vehi_ID) }}" class="btn btn-primary">Actualizar</a>
+            <form action="{{ url_for('vehiculos.eliminar_vehiculo', vehi_ID=vehiculo.vehi_ID) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+            </form>
+            <a href="{{ url_for('vehiculos.listar_vehiculos') }}" class="btn btn-secondary">Volver a la lista</a>
+        {% else %}
+            <p>No se encontraron detalles para este vehículo.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

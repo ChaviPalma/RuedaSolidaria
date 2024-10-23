@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
     <title>Document</title>
 </head>
 <body>
@@ -12,19 +11,19 @@
     <h1>Bienvenido</h1>
 
     <h2>Usuarios</h2>
-    <a href="{{ url_for('usuarios.crear_usuario') }}">Crear Usuario</a> 
+
     <a href="{{ url_for('usuarios.listar_usuarios') }}">Listar Usuarios</a> 
 
     <h2>Conductores</h2>
-    <a href="{{ url_for('conductores.crear_conductor') }}">Crear Conductor</a>
+    
     <a href="{{ url_for('conductores.listar_conductores') }}">Listar Conductores</a>
 
     <h2>Establecimientos</h2>
-    <a href="{{ url_for('establecimientos.crear_establecimiento') }}">Crear Establecimiento</a>
+    
     <a href="{{ url_for('establecimientos.listar_establecimientos') }}">Listar Establecimientos</a>
 
     <h2>Rutas</h2> 
-    <a href="{{ url_for('rutas.crear_ruta') }}">Crear Ruta</a>
+    
     <a href="{{ url_for('rutas.listar_rutas') }}">Listar Rutas</a> 
 
     <h2>Vehículos</h2>
@@ -32,17 +31,18 @@
     <a href="{{ url_for('vehiculos.listar_vehiculos') }}">Listar Vehículos</a>
 
     <h2>Alumnos</h2>
-    <a href="{{ url_for('alumnos.crear_alumno') }}">Crear Alumno</a>
+  
     <a href="{{ url_for('alumnos.listar_alumnos') }}">Listar Alumnos</a>
+   
 
     <h2>Administradores</h2>
-    <a href="{{ url_for('administradores.crear_administrador') }}">Crear Administrador</a>
+    
     <a href="{{ url_for('administradores.listar_administradores') }}">Listar Administradores</a>
-
+   
+    
     <h2>Viajes</h2>
-    <a href="{{ url_for('viajes.crear_viaje') }}">Crear Viaje</a>
+    
     <a href="{{ url_for('viajes.listar_viajes') }}">Listar Viajes</a>
 
-   
 </body>
 </html>

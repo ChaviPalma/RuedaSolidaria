@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Actualizar Conductor</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Actualizar Conductor</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert alert-dismissible fade show mt-3" role="alert">
+                    <ul>
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('conductores.actualizar_conductor', conductor_ID=conductor.conductor_ID) }}">
+            <div class="form-group">
+                <label for="pnombre_cond">Primer Nombre:</label>
+                <input type="text" class="form-control" name="pnombre_cond" id="pnombre_cond" value="{{ conductor.pnombre_cond }}" required>
+            </div>
+            <div class="form-group">
+                <label for="snombre_cond">Segundo Nombre:</label>
+                <input type="text" class="form-control" name="snombre_cond" id="snombre_cond" value="{{ conductor.snombre_cond }}" required>
+            </div>
+            <div class="form-group">
+                <label for="appaterno_cond">Apellido Paterno:</label>
+                <input type="text" class="form-control" name="appaterno_cond" id="appaterno_cond" value="{{ conductor.appaterno_cond }}" required>
+            </div>
+            <div class="form-group">
+                <label for="apmaterno_cond">Apellido Materno:</label>
+                <input type="text" class="form-control" name="apmaterno_cond" id="apmaterno_cond" value="{{ conductor.apmaterno_cond }}">
+            </div>
+            <div class="form-group">
+                <label for="inst_ID">ID Establecimiento:</label>
+                <input type="number" class="form-control" name="inst_ID" id="inst_ID" value="{{ conductor.inst_ID }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Actualizar Conductor</button>
+            <a href="{{ url_for('conductores.listar_conductores') }}" class="btn btn-secondary">Volver</a>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

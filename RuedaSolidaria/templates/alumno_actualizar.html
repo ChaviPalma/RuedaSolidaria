@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Alumno</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Actualizar Alumno</h1>
+        <form action="{{ url_for('alumnos.actualizar_alumno', alumno_ID=alumno.alumno_ID) }}" method="POST">
+            <div class="form-group">
+                <label for="alumno_ID">ID del Alumno</label>
+                <input type="text" class="form-control" id="alumno_ID" name="alumno_ID" value="{{ alumno.alumno_ID }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="pnombre_alum">Primer Nombre</label>
+                <input type="text" class="form-control" id="pnombre_alum" name="pnombre_alum" value="{{ alumno.pnombre_alum }}" required>
+            </div>
+            <div class="form-group">
+                <label for="snombre_alum">Segundo Nombre</label>
+                <input type="text" class="form-control" id="snombre_alum" name="snombre_alum" value="{{ alumno.snombre_alum }}" required>
+            </div>
+            <div class="form-group">
+                <label for="apaterno_alum">Apellido Paterno</label>
+                <input type="text" class="form-control" id="apaterno_alum" name="apaterno_alum" value="{{ alumno.apaterno_alum }}">
+            </div>
+            <div class="form-group">
+                <label for="amaterno_alum">Apellido Materno</label>
+                <input type="text" class="form-control" id="amaterno_alum" name="amaterno_alum" value="{{ alumno.amaterno_alum }}">
+            </div>
+            <div class="form-group">
+                <label for="inst_ID">ID de Institución</label>
+                <input type="text" class="form-control" id="inst_ID" name="inst_ID" value="{{ alumno.inst_ID }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Actualizar Alumno</button>
+            <a href="{{ url_for('alumnos.listar_alumnos') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mt-3">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

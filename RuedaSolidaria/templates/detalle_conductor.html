@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Detalles del Conductor</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Detalles del Conductor</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert alert-dismissible fade show mt-3" role="alert">
+                    <ul>
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h2>Información del Conductor</h2>
+            </div>
+            <div class="card-body">
+                <p><strong>ID:</strong> {{ conductor.conductor_ID }}</p>
+                <p><strong>Primer Nombre:</strong> {{ conductor.pnombre_cond }}</p>
+                <p><strong>Segundo Nombre:</strong> {{ conductor.snombre_cond }}</p>
+                <p><strong>Apellido Paterno:</strong> {{ conductor.appaterno_cond }}</p>
+                <p><strong>Apellido Materno:</strong> {{ conductor.apmaterno_cond }}</p>
+                <p><strong>ID Establecimiento:</strong> {{ conductor.inst_ID }}</p>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ url_for('conductores.actualizar_conductor', conductor_ID=conductor.conductor_ID) }}" class="btn btn-primary">Actualizar Conductor</a>
+            <form action="{{ url_for('conductores.eliminar_conductor', conductor_ID=conductor.conductor_ID) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este conductor?');">Eliminar Conductor</button>
+            </form>
+            <a href="{{ url_for('conductores.listar_conductores') }}" class="btn btn-secondary">Volver a la Lista</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
