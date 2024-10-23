@@ -70,6 +70,7 @@ def actualizar_alumno(alumno_ID):
     else:
         flash('Alumno no encontrado.', 'error')
         return redirect(url_for('alumnos.listar_alumnos'))
+    
 
 @alumnos_bp.route('/alumno_eliminar/<int:alumno_ID>', methods=['POST'])
 def eliminar_alumno(alumno_ID):

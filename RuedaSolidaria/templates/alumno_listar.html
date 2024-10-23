@@ -3,42 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Lista de Alumnos</title>
 </head>
 <body>
-    <h1>Lista de Alumnos</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID Alumno</th>
-                <th>Primer Nombre</th>
-                <th>Segundo Nombre</th>
-                <th>Apellido Paterno</th>
-                <th>Apellido Materno</th>
-                <th>ID Establecimiento</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for alumno in alumnos %}
-            <tr>
-                <td>{{ alumno.alumno_ID }}</td>
-                <td>{{ alumno.pnombre_alum }}</td>
-                <td>{{ alumno.snombre_alum }}</td>
-                <td>{{ alumno.apaterno_alum }}</td>
-                <td>{{ alumno.amaterno_alum }}</td>
-                <td>{{ alumno.inst_ID }}</td>
-                <td>
-                    <a href="{{ url_for('alumnos.buscar_alumno', alumno_ID=alumno.alumno_ID) }}">Ver</a>
-                    <form method="POST" action="{{ url_for('alumnos.eliminar_alumno', alumno_ID=alumno.alumno_ID) }}" style="display:inline;">
-                        <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este alumno?');">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Lista de Alumnos</h1>
+        <div class="mb-3 text-right">
+            <a href="{{ url_for('alumnos.crear_alumno') }}" class="btn btn-primary">Agregar Alumno</a>
+        </div>
+        
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alumno in alumnos %}
+                <tr>
+                    <td>{{ alumno.alumno_ID }}</td>
+                    <td>{{ alumno.pnombre_alum }} {{ alumno.snombre_alum }} {{ alumno.apaterno_alum }} {{ alumno.amaterno_alum }}</td>
+                    <td>
+                        <a href="{{ url_for('alumnos.buscar_alumno', alumno_ID=alumno.alumno_ID) }}" class="btn btn-info">Detalles</a>
+                        <a href="{{ url_for('alumnos.actualizar_alumno', alumno_ID=alumno.alumno_ID) }}" class="btn btn-warning">Actualizar</a>
+                        <form action="{{ url_for('alumnos.eliminar_alumno', alumno_ID=alumno.alumno_ID) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    <a href="{{ url_for('alumnos.crear_alumno') }}">Crear Nuevo Alumno</a>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

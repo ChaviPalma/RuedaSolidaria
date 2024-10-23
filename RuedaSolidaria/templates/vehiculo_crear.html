@@ -1,40 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Crear Vehículo</title>
 </head>
 <body>
-    <h1>Crear Vehículo</h1>
+    <div class="container mt-5">
+        <h1 class="text-center">Crear Vehículo</h1>
 
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-            <ul>
-            {% for category, message in messages %}
-                <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <ul class="list-unstyled">
+                {% for category, message in messages %}
+                    <li class="alert alert-{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
 
-    <form method="POST" action="{{ url_for('vehiculos.crear_vehiculo') }}">
-        <label for="vehi_ID">ID Vehículo:</label>
-        <input type="number" name="vehi_ID" required>
+        <form method="POST" action="{{ url_for('vehiculos.crear_vehiculo') }}" class="mt-4">
+            <div class="form-group">
+                <label for="vehi_ID">ID Vehículo:</label>
+                <input type="number" name="vehi_ID" id="vehi_ID" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="nombre_vehi">Nombre del Vehículo:</label>
+                <input type="text" name="nombre_vehi" id="nombre_vehi" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="color">Color:</label>
+                <input type="text" name="color" id="color" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="patente">Patente:</label>
+                <input type="text" name="patente" id="patente" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="conductor_ID">ID del Conductor:</label>
+                <input type="number" name="conductor_ID" id="conductor_ID" class="form-control" required>
+            </div>
 
-        <label for="nombre_vehi">Nombre del Vehículo:</label>
-        <input type="text" name="nombre_vehi" required>
+            <button type="submit" class="btn btn-primary">Crear Vehículo</button>
+        </form>
 
-        <label for="color">Color:</label>
-        <input type="text" name="color" required>
+        <br>
+        <a href="{{ url_for('vehiculos.listar_vehiculos') }}" class="btn btn-secondary">Volver a la lista de Vehículos</a>
+    </div>
 
-        <label for="patente">Patente:</label>
-        <input type="text" name="patente" required>
-
-        <label for="conductor_ID">ID del Conductor:</label>
-        <input type="number" name="conductor_ID" required>
-
-        <button type="submit">Crear Vehículo</button>
-    </form>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

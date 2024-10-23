@@ -64,9 +64,16 @@ class AlumnoModel:
 
     def buscar_alumno(self, alumno_ID):
         try:
-            query = "SELECT * FROM Alumnos WHERE alumno_ID = %s"
+            query = "SELECT * FROM Alumno WHERE alumno_ID = %s"
             self.cursor.execute(query, (alumno_ID,))
-            return self.cursor.fetchone()
+            alumno_data = self.cursor.fetchone() 
+            if alumno_data:
+                # Crea la namedtuple aquí
+                Alumno = namedtuple('Alumno', 'alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID')
+                alumno = Alumno(*alumno_data)  # Convierte la tupla en un objeto Alumno
+                return alumno 
+            else:
+                return None
         except mysql.connector.Error as err:
             print(f"Error: {err}")
             return None

@@ -1,0 +1,94 @@
+/*listar*/
+body {
+    background-color: #f8f9fa; 
+}
+
+h1 {
+    color: #007bff; 
+}
+
+.table {
+    margin-top: 20px; 
+}
+
+.btn {
+    margin-right: 5px; 
+}
+
+/*crear usuario*/
+
+body {
+    background-color: #f8f9fa; 
+}
+
+h1 {
+    color: #007bff; 
+}
+
+.alert {
+    margin-top: 20px; 
+}
+
+/*detalle*/
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #343a40;
+}
+
+.list-group {
+    margin: 20px 0;
+}
+
+.list-group-item {
+    font-size: 1.1em;
+}
+
+.btn {
+    margin-right: 10px;
+}
+
+/*actualizar*/
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #343a40;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.alert {
+    margin-top: 20px;
+}

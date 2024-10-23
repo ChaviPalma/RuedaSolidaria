@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Establecimiento</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Detalles del Establecimiento</h1>
+
+        {% if establecimiento %}
+            <ul class="list-group">
+                <li class="list-group-item"><strong>ID:</strong> {{ establecimiento.est_ID }}</li>
+                <li class="list-group-item"><strong>Nombre:</strong> {{ establecimiento.nombre }}</li>
+                <li class="list-group-item"><strong>Dirección:</strong> {{ establecimiento.direccion }}</li>
+                <li class="list-group-item"><strong>Teléfono:</strong> {{ establecimiento.telefono }}</li>
+            </ul>
+
+            <a href="{{ url_for('establecimientos.actualizar_establecimiento', est_ID=establecimiento.est_ID) }}" class="btn btn-primary mt-3">Actualizar</a>
+            <form action="{{ url_for('establecimientos.eliminar_establecimiento', est_ID=establecimiento.est_ID) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger mt-3" onclick="return confirm('¿Estás seguro de que deseas eliminar este establecimiento?');">Eliminar</button>
+            </form>
+            <a href="{{ url_for('establecimientos.listar_establecimientos') }}" class="btn btn-secondary mt-3">Volver a la lista</a>
+        {% else %}
+            <p>No se encontraron detalles para este establecimiento.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

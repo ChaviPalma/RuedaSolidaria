@@ -3,47 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>Crear Viaje</title>
 </head>
 <body>
-    <h1>Crear Viaje</h1>
+    <div class="container mt-5">
+        <h1 class="text-center">Crear Viaje</h1>
 
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-            <ul>
-            {% for category, message in messages %}
-                <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <ul class="alert alert-warning">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
 
-    <form method="POST">
-        <label for="viaje_ID">ID Viaje:</label>
-        <input type="number" name="viaje_ID" required><br>
+        <form method="POST">
+            <div class="form-group">
+                <label for="viaje_ID">ID Viaje:</label>
+                <input type="number" name="viaje_ID" class="form-control" required>
+            </div>
 
-        <label for="ID_ruta">ID Ruta:</label>
-        <input type="number" name="ID_ruta" required><br>
+            <div class="form-group">
+                <label for="ID_ruta">ID Ruta:</label>
+                <input type="number" name="ID_ruta" class="form-control" required>
+            </div>
 
-        <label for="alumno_ID">ID Alumno:</label>
-        <input type="number" name="alumno_ID" required><br>
+            <div class="form-group">
+                <label for="alumno_ID">ID Alumno:</label>
+                <input type="number" name="alumno_ID" class="form-control" required>
+            </div>
 
-        <label for="fecha">Fecha:</label>
-        <input type="text" name="fecha" required><br>
+            <div class="form-group">
+                <label for="fecha">Fecha:</label>
+                <input type="date" name="fecha" class="form-control" required>
+            </div>
 
-        <label for="hora">Hora:</label>
-        <input type="text" name="hora" required><br>
+            <div class="form-group">
+                <label for="hora">Hora:</label>
+                <input type="time" name="hora" class="form-control" required>
+            </div>
 
-        <label for="calificacion">Calificación:</label>
-        <input type="number" name="calificacion" required><br>
+            <div class="form-group">
+                <label for="calificacion">Calificación:</label>
+                <input type="number" name="calificacion" class="form-control" min="1" max="5" required>
+            </div>
 
-        <label for="comentario">Comentario:</label>
-        <textarea name="comentario"></textarea><br>
+            <div class="form-group">
+                <label for="comentario">Comentario:</label>
+                <textarea name="comentario" class="form-control"></textarea>
+            </div>
 
-        <button type="submit">Crear Viaje</button>
-    </form>
+            <button type="submit" class="btn btn-primary">Crear Viaje</button>
+        </form>
 
-    <br>
-    <a href="{{ url_for('viajes.listar_viajes') }}">Volver a la lista de Viajes</a>
+        <br>
+        <a href="{{ url_for('viajes.listar_viajes') }}" class="btn btn-secondary">Volver a la lista de Viajes</a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

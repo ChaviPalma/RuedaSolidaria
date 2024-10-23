@@ -1,29 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Usuario</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Estilos CSS personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>Crear Usuario</h1>
+    <div class="container mt-5">
+        <h1 class="text-center">Crear Usuario</h1>
 
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-            <ul>
-            {% for category, message in messages %}
-                <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="alert alert-warning mt-3">
+                <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
 
-    <form method="POST" action="{{ url_for('usuarios.crear_usuario') }}">
-        <label for="email">Email:</label>
-        <input type="email" name="email" required>
+        <form method="POST" action="{{ url_for('usuarios.crear_usuario') }}" class="mt-4">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" name="email" required>
+            </div>
 
-        <label for="contrasena">Contraseña:</label>
-        <input type="password" name="contrasena" required>
+            <div class="form-group">
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" class="form-control" name="contrasena" required>
+            </div>
 
-        <button type="submit">Crear Usuario</button>
-    </form>
+            <button type="submit" class="btn btn-primary">Crear Usuario</button>
+            <a href="{{ url_for('usuarios.listar_usuarios') }}" class="btn btn-secondary">Volver a la lista</a>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
