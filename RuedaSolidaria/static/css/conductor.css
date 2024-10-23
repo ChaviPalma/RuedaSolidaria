@@ -1,0 +1,77 @@
+/* Color principal en tonos celestes */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f7fa;
+    margin: 0;
+    padding: 0;
+}
+
+.mapa-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.mapa-container img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 8px;
+}
+
+/* Sección de alumnos en ruta */
+.autos-disponibles {
+    padding: 20px;
+    background-color: #ffffff; /* Fondo blanco */
+    text-align: center;
+    margin-bottom: 60px; /* Asegúrate de que este margen sea suficiente para no tapar con la barra */
+}
+
+.autos-disponibles h2 {
+    color: #0288d1;
+    font-size: 24px;
+}
+
+.autos {
+    display: flex;
+    flex-direction: column; /* Alinea los elementos en columna */
+    gap: 15px; /* Espacio entre los rectángulos */
+    align-items: center; /* Centra los elementos horizontalmente */
+}
+
+.auto {
+    background-color: #4fc3f7;
+    border-radius: 10px;
+    padding: 15px;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.auto p {
+    margin: 5px 0;
+    color: #ffffff;
+}
+
+/* Barra inferior */
+.barra-inferior {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #0288d1;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.boton {
+    background-color: #ffffff;
+    color: #0288d1;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.boton:hover {
+    background-color: #b3e5fc;
+}

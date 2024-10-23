@@ -3,11 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estudiante</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> <!-- Ajusta según tu estructura -->
+    <title>Conductor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/conductor.css') }}">
 </head>
 <body>
-    <h1>Bienvenido, Conductor!</h1>
-    <p>Has iniciado sesión correctamente.</p>
+    <div class="mapa-container">
+        <img src="{{ url_for('static', filename='img/Google-Maps-Chile.gif') }}" alt="Mapa" class="mapa-imagen">
+    </div>
+
+    <div class="autos-disponibles">
+        <h2>Alumnos en tu Ruta</h2>
+        <div class="autos">
+            <div class="auto">
+                <p>Alumno: Juan Pérez</p>
+                <p>Ruta: Ruta 1</p>
+            </div>
+            <div class="auto">
+                <p>Alumno: María Gómez</p>
+                <p>Ruta: Ruta 2</p>
+            </div>
+            <div class="auto">
+                <p>Alumno: Luis Fernández</p>
+                <p>Ruta: Ruta 3</p>
+            </div>
+            <div class="auto">
+                <p>Alumno: Ana Torres</p>
+                <p>Ruta: Ruta 4</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="barra-inferior">
+        <button class="boton" onclick="location.href='/editar_cuenta'">Editar Cuenta</button>
+        <button class="boton" onclick="location.href='/historial_viajes'">Historial de Viajes</button>
+        <button class="boton" onclick="location.href='/historial_viajes'">Gestionar mis rutas</button>
+    </div>
 </body>
 </html>

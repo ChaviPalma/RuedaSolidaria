@@ -9,19 +9,12 @@ def crear_usuario():
         email = request.form.get('email')
         contrasena = request.form.get('contrasena')
 
-
-        usuario_model = UsuarioModel()
-        usuario_model.crear_usuario(email, contrasena)
-
-
-
         if not email or not contrasena:
             flash('Todos los campos son obligatorios.', 'error')
             return redirect(url_for('usuarios.crear_usuario')) 
 
         usuario_model = UsuarioModel()
         usuario_model.crear_usuario(email, contrasena)
-
 
         return redirect(url_for('usuarios.crear_usuario'))
 
@@ -44,9 +37,9 @@ def login():
             dominio = email.split('@')[1]
             
             # Redirigir dependiendo del dominio
-            if dominio == 'estudiante.com':
+            if dominio in ['estcolegionacional.edu', 'estescuelaprimarialibertad.edu', 'estinstitutotecnologicocentral.edu', 'estescuelasecundarialosalamos.edu']:
                 return redirect(url_for('usuarios.estudiante'))  # Redirige a estudiante.html
-            elif dominio == 'conductor.com':
+            elif dominio in ['concolegionacional.edu', 'conescuelaprimarialibertad.edu', 'coninstitutotecnologicocentral.edu', 'conescuelasecundarialosalamos.edu']:
                 return redirect(url_for('usuarios.conductor'))  # Redirige a conductor.html
             else:
                 flash('Dominio de email no reconocido', 'error')
@@ -69,4 +62,3 @@ def listar_usuarios():
     usuario_model = UsuarioModel()
     usuarios = usuario_model.listar_usuarios()
     return render_template('usuario_listar.html', usuarios=usuarios)
-
