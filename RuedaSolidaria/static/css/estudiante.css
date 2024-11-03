@@ -10,6 +10,10 @@ body {
     text-align: center;
     padding: 20px;
 }
+#map {
+	height: 500px;
+	width: 100%;
+}
 
 .mapa-container img {
     width: 100%;
