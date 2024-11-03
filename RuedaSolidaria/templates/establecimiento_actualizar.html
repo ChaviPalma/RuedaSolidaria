@@ -9,22 +9,14 @@
 <body>
     <div class="container mt-5">
         <h1>Actualizar Establecimiento</h1>
-        <form action="{{ url_for('establecimientos.actualizar_establecimiento', est_ID=establecimiento.est_ID) }}" method="POST">
-            <div class="form-group">
-                <label for="est_ID">ID del Establecimiento</label>
-                <input type="text" class="form-control" id="est_ID" name="est_ID" value="{{ establecimiento.est_ID }}" readonly>
-            </div>
+        <form action="{{ url_for('establecimientos.actualizar_establecimiento', est_ID=est_ID) }}" method="POST"> 
             <div class="form-group">
                 <label for="nombre">Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ establecimiento.nombre }}" required>
+                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ request.form.get('nombre', '') }}" required> 
             </div>
             <div class="form-group">
                 <label for="direccion">Dirección</label>
-                <input type="text" class="form-control" id="direccion" name="direccion" value="{{ establecimiento.direccion }}" required>
-            </div>
-            <div class="form-group">
-                <label for="telefono">Teléfono</label>
-                <input type="text" class="form-control" id="telefono" name="telefono" value="{{ establecimiento.telefono }}">
+                <input type="text" class="form-control" id="direccion" name="direccion" value="{{ request.form.get('direccion', '') }}" required> 
             </div>
             <button type="submit" class="btn btn-primary">Actualizar Establecimiento</button>
             <a href="{{ url_for('establecimientos.listar_establecimientos') }}" class="btn btn-secondary">Cancelar</a>

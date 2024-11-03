@@ -34,17 +34,6 @@ def listar_rutas():
     rutas = ruta_model.listar_rutas()
     return render_template('ruta_listar.html', rutas=rutas)
 
-
-@rutas_bp.route('/ruta_buscar/<int:ID_ruta>')
-def buscar_ruta(ID_ruta):
-    ruta_model = RutaModel()
-    ruta = ruta_model.buscar_ruta(ID_ruta)
-    if ruta:
-        return render_template('ruta_detalle.html', ruta=ruta) 
-    else:
-        flash('Ruta no encontrada.', 'error')
-        return redirect(url_for('rutas.listar_rutas'))
-
 @rutas_bp.route('/ruta_actualizar/<int:ID_ruta>', methods=['GET', 'POST'])
 def actualizar_ruta(ID_ruta):
     ruta_model = RutaModel()
@@ -54,23 +43,22 @@ def actualizar_ruta(ID_ruta):
         est_ID = request.form.get('est_ID')
         conductor_ID = request.form.get('conductor_ID')
 
-        if not Origen or not Destino or not est_ID or not conductor_ID:
+        if not Origen or not Destino:
             flash('Todos los campos son obligatorios.', 'error')
             return redirect(url_for('rutas.actualizar_ruta', ID_ruta=ID_ruta))
 
         try:
+            est_ID = int(est_ID) if est_ID else None
+            conductor_ID = int(conductor_ID) if conductor_ID else None
+
             ruta_model.actualizar_ruta(ID_ruta, Origen, Destino, est_ID, conductor_ID)
             flash('Ruta actualizada exitosamente.', 'success')
             return redirect(url_for('rutas.listar_rutas'))
         except Exception as e:
+            print(f'Error al actualizar la ruta: {e}')  
             flash(f'Error al actualizar la ruta: {e}', 'error')
 
-    ruta = ruta_model.buscar_ruta(ID_ruta)
-    if ruta:
-        return render_template('ruta_actualizar.html', ruta=ruta)
-    else:
-        flash('Ruta no encontrada.', 'error')
-        return redirect(url_for('rutas.listar_rutas'))
+    return render_template('ruta_actualizar.html', ID_ruta=ID_ruta)
 
 @rutas_bp.route('/ruta_eliminar/<int:ID_ruta>', methods=['POST'])
 def eliminar_ruta(ID_ruta):

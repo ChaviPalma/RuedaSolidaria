@@ -31,6 +31,16 @@ def crear_usuario():
 
     return render_template('usuario_crear.html')
 
+@usuarios_bp.route('/usuarios/<email>/eliminar', methods=['POST']) 
+def eliminar_usuario(email):
+    usuario_model = UsuarioModel()
+    try:
+        usuario_model.eliminar_usuario(email) 
+        flash('Usuario eliminado exitosamente.', 'success')
+    except Exception as e:
+        flash(f'Error al eliminar usuario: {e}', 'error')
+    return redirect(url_for('usuarios.listar_usuarios'))
+
 
 @usuarios_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -72,3 +82,21 @@ def listar_usuarios():
     usuarios = usuario_model.listar_usuarios()
     return render_template('usuario_listar.html', usuarios=usuarios)
 
+@usuarios_bp.route('/usuarios/<email>/actualizar', methods=['GET', 'POST'])
+def actualizar_usuario(email):
+    usuario_model = UsuarioModel()
+    if request.method == 'POST':
+        contrasena = request.form.get('contrasena')
+        if not contrasena:
+            flash('La contraseña es obligatoria.', 'error')
+            return redirect(url_for('usuarios.actualizar_usuario', email=email))
+
+        try:
+            usuario_model.actualizar_usuario(email, contrasena)
+            flash('Contraseña actualizada exitosamente.', 'success')
+            return redirect(url_for('usuarios.listar_usuarios'))
+        except Exception as e:
+            flash(f'Error al actualizar la contraseña: {e}', 'error')
+            return redirect(url_for('usuarios.actualizar_usuario', email=email))
+
+    return render_template('usuario_actualizar.html', email=email)

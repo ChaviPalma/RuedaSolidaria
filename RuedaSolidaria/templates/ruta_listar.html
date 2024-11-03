@@ -31,7 +31,6 @@
                     <td>{{ ruta.est_ID }}</td>
                     <td>{{ ruta.conductor_ID }}</td>
                     <td>
-                        <a href="{{ url_for('rutas.buscar_ruta', ID_ruta=ruta.ID_ruta) }}" class="btn btn-info btn-sm">Ver</a>
                         <a href="{{ url_for('rutas.actualizar_ruta', ID_ruta=ruta.ID_ruta) }}" class="btn btn-warning btn-sm">Editar</a>
                         <form method="POST" action="{{ url_for('rutas.eliminar_ruta', ID_ruta=ruta.ID_ruta) }}" style="display:inline;">
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta ruta?');">Eliminar</button>

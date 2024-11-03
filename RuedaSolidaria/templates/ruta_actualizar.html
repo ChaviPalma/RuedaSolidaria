@@ -9,31 +9,27 @@
 <body>
     <div class="container mt-5">
         <h1>Actualizar Ruta</h1>
-        <form action="{{ url_for('rutas.actualizar_ruta', ID_ruta=ruta.ID_ruta) }}" method="POST">
-            <div class="form-group">
-                <label for="ID_ruta">ID Ruta</label>
-                <input type="text" class="form-control" id="ID_ruta" name="ID_ruta" value="{{ ruta.ID_ruta }}" readonly>
-            </div>
+        <form action="{{ url_for('rutas.actualizar_ruta', ID_ruta=ID_ruta) }}" method="POST"> 
             <div class="form-group">
                 <label for="Origen">Origen</label>
-                <input type="text" class="form-control" id="Origen" name="Origen" value="{{ ruta.Origen }}" required>
+                <input type="text" class="form-control" id="Origen" name="Origen" value="{{ request.form.get('Origen', '') }}" required>
             </div>
             <div class="form-group">
                 <label for="Destino">Destino</label>
-                <input type="text" class="form-control" id="Destino" name="Destino" value="{{ ruta.Destino }}" required>
+                <input type="text" class="form-control" id="Destino" name="Destino" value="{{ request.form.get('Destino', '') }}" required>
             </div>
             <div class="form-group">
                 <label for="est_ID">ID Establecimiento</label>
-                <input type="text" class="form-control" id="est_ID" name="est_ID" value="{{ ruta.est_ID }}" required>
+                <input type="text" class="form-control" id="est_ID" name="est_ID" value="{{ request.form.get('est_ID', '') }}" readonly> 
             </div>
             <div class="form-group">
                 <label for="conductor_ID">ID Conductor</label>
-                <input type="text" class="form-control" id="conductor_ID" name="conductor_ID" value="{{ ruta.conductor_ID }}" required>
+                <input type="text" class="form-control" id="conductor_ID" name="conductor_ID" value="{{ request.form.get('conductor_ID', '') }}" readonly>
             </div>
             <button type="submit" class="btn btn-primary">Actualizar Ruta</button>
             <a href="{{ url_for('rutas.listar_rutas') }}" class="btn btn-secondary">Cancelar</a>
         </form>
-        
+
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 <div class="mt-3">

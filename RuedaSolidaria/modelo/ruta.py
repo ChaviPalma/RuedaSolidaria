@@ -40,28 +40,20 @@ class RutaModel:
             self.cursor.close()
             self.connection.close()
 
-    def buscar_ruta(self, ID_ruta):
-        try:
-            query = "SELECT * FROM Ruta WHERE ID_ruta = %s"
-            self.cursor.execute(query, (ID_ruta,))
-            return self.cursor.fetchone()
-        except mysql.connector.Error as err:
-            print(f"Error: {err}")
-            return None
-        finally:
-            self.cursor.close()
-            self.connection.close()
 
     def actualizar_ruta(self, ID_ruta, Origen, Destino, est_ID, conductor_ID):
         try:
-            query = "UPDATE Ruta SET Origen = %s, Destino = %s, est_ID = %s, conductor_ID = %s WHERE ID_ruta = %s"
-            self.cursor.execute(query, (Origen, Destino, est_ID, conductor_ID, ID_ruta))
-            self.connection.commit()
+            with self.connection.cursor() as cursor:
+                query = """
+                    UPDATE Ruta 
+                    SET Origen = %s, Destino = %s, est_ID = %s, conductor_ID = %s 
+                    WHERE ID_ruta = %s
+                """
+                cursor.execute(query, (Origen, Destino, est_ID, conductor_ID, ID_ruta))
+                self.connection.commit()
         except mysql.connector.Error as err:
-            print(f"Error: {err}")
-        finally:
-            self.cursor.close()
-            self.connection.close()
+            self.connection.rollback()
+            print(f"Error al actualizar la ruta: {err}")
 
     def eliminar_ruta(self, ID_ruta):
         try:

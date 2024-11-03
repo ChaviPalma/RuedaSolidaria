@@ -11,6 +11,8 @@
     <div class="container mt-5">
         <h1 class="text-center mb-4">Lista de Conductores</h1>
 
+        <a href="{{ url_for('conductores.crear_conductor') }}" class="btn btn-primary mb-3">Crear Nuevo Conductor</a>
+
         <table class="table table-striped">
             <thead class="thead-dark">
                 <tr>
@@ -33,7 +35,7 @@
                     <td>{{ conductor.apmaterno_cond }}</td>
                     <td>{{ conductor.inst_ID }}</td>
                     <td>
-                        
+                        <a href="{{ url_for('conductores.actualizar_conductor', conductor_ID=conductor.conductor_ID) }}" class="btn btn-info btn-sm">Actualizar</a> 
                         <form method="POST" action="{{ url_for('conductores.eliminar_conductor', conductor_ID=conductor.conductor_ID) }}" style="display:inline;">
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este conductor?');">Eliminar</button>
                         </form>
@@ -42,8 +44,6 @@
                 {% endfor %}
             </tbody>
         </table>
-        
-        <a href="{{ url_for('conductores.crear_conductor') }}" class="btn btn-primary">Crear Nuevo Conductor</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
