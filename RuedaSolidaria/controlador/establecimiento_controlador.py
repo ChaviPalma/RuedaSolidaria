@@ -33,19 +33,10 @@ def listar_establecimientos():
 
 
 
-@establecimientos_bp.route('/establecimiento_buscar/<int:est_ID>')
-def buscar_establecimiento(est_ID):
-    establecimiento_model = EstablecimientoModel()
-    establecimiento = establecimiento_model.buscar_establecimiento(est_ID)
-    if establecimiento:
-        return render_template('establecimiento_detalle.html', establecimiento=establecimiento) 
-    else:
-        flash('Establecimiento no encontrado.', 'error')
-        return redirect(url_for('establecimientos.listar_establecimientos'))
-
 @establecimientos_bp.route('/establecimiento_actualizar/<int:est_ID>', methods=['GET', 'POST'])
 def actualizar_establecimiento(est_ID):
     establecimiento_model = EstablecimientoModel()
+
     if request.method == 'POST':
         nombre_ins = request.form.get('nombre_ins')
         direccion = request.form.get('direccion')
@@ -61,13 +52,7 @@ def actualizar_establecimiento(est_ID):
         except Exception as e:
             flash(f'Error al actualizar establecimiento: {e}', 'error')
 
-
-    establecimiento = establecimiento_model.buscar_establecimiento(est_ID)
-    if establecimiento:
-        return render_template('establecimiento_actualizar.html', establecimiento=establecimiento)
-    else:
-        flash('Establecimiento no encontrado.', 'error')
-        return redirect(url_for('establecimientos.listar_establecimientos'))
+    return render_template('establecimiento_actualizar.html', est_ID=est_ID) 
 
 @establecimientos_bp.route('/establecimiento_eliminar/<int:est_ID>', methods=['POST'])
 def eliminar_establecimiento(est_ID):

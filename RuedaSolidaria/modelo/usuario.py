@@ -22,9 +22,6 @@ class UsuarioModel:
             self.cursor.close()
             self.connection.close()
 
-
-
-
     def actualizar_usuario(self, email, contrasena):
         try:
             query = "UPDATE USUARIOS SET CONTRASENA = %s WHERE EMAIL = %s"
@@ -39,7 +36,7 @@ class UsuarioModel:
     def eliminar_usuario(self, email):
         try:
             query = "DELETE FROM USUARIOS WHERE EMAIL = %s"
-            self.cursor.execute(query, (email))
+            self.cursor.execute(query, (email,))  
             self.connection.commit()
         except mysql.connector.Error as err:
             print(f"Error: {err}")
@@ -47,10 +44,7 @@ class UsuarioModel:
             self.cursor.close()
             self.connection.close()
 
-    
-   
     def listar_usuarios(self): 
-
         try:
             query = "SELECT user_ID, email, admin_ID, conductor_ID, alumno_ID FROM USUARIOS"
             self.cursor.execute(query)
@@ -64,4 +58,3 @@ class UsuarioModel:
         finally:
             self.cursor.close()
             self.connection.close()
-

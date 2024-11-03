@@ -4,21 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Usuarios</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Estilos CSS personalizados -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
 </head>
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Lista de Usuarios</h1>
 
-        <table class="table table-bordered mt-4">
-            <thead class="thead-dark">
+        <a href="{{ url_for('usuarios.crear_usuario') }}" class="btn btn-primary mb-3">Crear Usuario</a> 
+
+        <table class="table table-striped mt-4">
+            <thead class="thead-dark"> 
                 <tr>
-                    <th>ID</th>
+                    <th>ID del Usuario</th>
                     <th>Email</th>
-                    <th>Acciones</th>
+                    <th>Acciones</th>  
                 </tr>
             </thead>
             <tbody>
@@ -27,7 +26,8 @@
                     <td>{{ usuario.user_ID }}</td>
                     <td>{{ usuario.email }}</td>
                     <td>
-                        <form method="POST" action="{{ url_for('usuarios.eliminar_usuario', user_ID=usuario.user_ID) }}" style="display:inline;">
+                        <a href="{{ url_for('usuarios.actualizar_usuario', email=usuario.email) }}" class="btn btn-info btn-sm">Actualizar</a>
+                        <form method="POST" action="{{ url_for('usuarios.eliminar_usuario', email=usuario.email) }}" style="display:inline;">
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">Eliminar</button>
                         </form>
                     </td>
@@ -35,13 +35,10 @@
                 {% endfor %}
             </tbody>
         </table>
-
-        <a href="{{ url_for('usuarios.crear_usuario') }}" class="btn btn-primary btn-block mt-3">Crear Nuevo Usuario</a>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

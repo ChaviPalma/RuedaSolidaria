@@ -51,7 +51,7 @@ class EstablecimientoModel:
             self.cursor.execute(query)
             establecimientos = self.cursor.fetchall()
 
-            # Define la namedtuple para establecimientos
+        
             Establecimiento = namedtuple('Establecimiento', 'est_ID, nombre_ins, direccion')  
             establecimientos = [Establecimiento(*establecimiento) for establecimiento in establecimientos]
 
