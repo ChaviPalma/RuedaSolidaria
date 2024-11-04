@@ -13,19 +13,12 @@ def crear_usuario():
         email = request.form.get('email')
         contrasena = request.form.get('contrasena')
 
-
-        usuario_model = UsuarioModel()
-        usuario_model.crear_usuario(email, contrasena)
-
-
-
         if not email or not contrasena:
             flash('Todos los campos son obligatorios.', 'error')
             return redirect(url_for('usuarios.crear_usuario')) 
 
         usuario_model = UsuarioModel()
         usuario_model.crear_usuario(email, contrasena)
-
 
         return redirect(url_for('usuarios.crear_usuario'))
 
@@ -55,11 +48,19 @@ def login():
             session['usuario_id'] = usuario[0]  
             dominio = email.split('@')[1]
             
+
+            # Redirigir dependiendo del dominio
+            if dominio in ['estcolegionacional.edu', 'estescuelaprimarialibertad.edu', 'estinstitutotecnologicocentral.edu', 'estescuelasecundarialosalamos.edu']:
+                return redirect(url_for('usuarios.estudiante'))  # Redirige a estudiante.html
+            elif dominio in ['concolegionacional.edu', 'conescuelaprimarialibertad.edu', 'coninstitutotecnologicocentral.edu', 'conescuelasecundarialosalamos.edu']:
+                return redirect(url_for('usuarios.conductor'))  # Redirige a conductor.html
+
             
             if dominio == 'estudiante.com':
                 return redirect(url_for('usuarios.estudiante'))  
             elif dominio == 'conductor.com':
                 return redirect(url_for('usuarios.conductor'))  
+
             else:
                 flash('Dominio de email no reconocido', 'error')
 
@@ -82,6 +83,7 @@ def listar_usuarios():
     usuarios = usuario_model.listar_usuarios()
     return render_template('usuario_listar.html', usuarios=usuarios)
 
+
 @usuarios_bp.route('/usuarios/<email>/actualizar', methods=['GET', 'POST'])
 def actualizar_usuario(email):
     usuario_model = UsuarioModel()
@@ -99,4 +101,4 @@ def actualizar_usuario(email):
             flash(f'Error al actualizar la contraseña: {e}', 'error')
             return redirect(url_for('usuarios.actualizar_usuario', email=email))
 
-    return render_template('usuario_actualizar.html', email=email)
+

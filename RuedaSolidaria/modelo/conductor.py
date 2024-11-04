@@ -6,7 +6,7 @@ class ConductorModel:
         self.connection = mysql.connector.connect(
             host='localhost',
             user='root',
-            password='',
+            password='loki',
             database='RuedaSolidaria'
         )
         self.cursor = self.connection.cursor()

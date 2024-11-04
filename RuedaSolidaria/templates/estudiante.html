@@ -4,10 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estudiante</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"> <!-- Ajusta según tu estructura -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/conductorr.css') }}">
+    <script>
+        let map;
+        let directionsService;
+        let directionsRenderer;
+        let rutaGuardada = null; // Variable para almacenar la ruta calculada
+
+        // Inicializar el mapa y los servicios de direcciones
+        function iniciarMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -34.397, lng: 150.644 }, // Cambia las coordenadas iniciales según tu preferencia
+                zoom: 8
+            });
+
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+        }
+
+        // Función para buscar rutas cercanas desde la dirección del estudiante
+        function buscarRutasCercanas() {
+            const direccion = document.getElementById("inicio").value;
+
+            fetch('/buscar_rutas', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ direccion: direccion })
+            })
+            .then(response => response.json())
+            .then(data => {
+                mostrarRutas(data); // Llama a la función que muestra las rutas
+            })
+            .catch(error => {
+                console.error("Error al buscar rutas:", error);
+            });
+        }
+
+        // Función para mostrar las rutas en el contenedor
+        function mostrarRutas(rutas) {
+            const contenedorRutas = document.getElementById("rutasDisponibles");
+            contenedorRutas.innerHTML = ''; // Limpiar el contenedor antes de mostrar nuevas rutas
+
+            if (rutas.length === 0) {
+                contenedorRutas.innerHTML = '<p>No se encontraron rutas disponibles.</p>';
+            } else {
+                rutas.forEach(ruta => {
+                    const rutaElement = document.createElement("div");
+                    rutaElement.innerHTML = `
+                        <p>Origen: ${ruta.origen}</p>
+                        <p>Destino: ${ruta.destino}</p>
+                        <p>Cupos Disponibles: ${ruta.cupos_disponibles}</p>
+                        <hr>
+                    `;
+                    contenedorRutas.appendChild(rutaElement);
+                });
+            }
+        }
+    </script>
 </head>
 <body>
-    <h1>Bienvenido, Estudiante!</h1>
-    <p>Has iniciado sesión correctamente.</p>
+    
+    <div class="barra-superior">
+        <button class="boton cerrar-sesion" onclick="location.href='/'">Cerrar Sesión</button>
+    </div>
+    
+    <div class="mapa-container">
+        <div id="map" style="height: 500px;"></div>
+
+        <!-- Controles para ingresar dirección -->
+        <div class="ruta-form">
+            <div class="form-group">
+                <label for="inicio">Ingresa tu dirección</label>
+                <input id="inicio" type="text" placeholder="Punto de inicio">
+                <button id="calcularRuta" class="boton" onclick="buscarRutasCercanas()">Buscar Rutas Disponibles</button>
+            </div>
+        </div>
+
+        <!-- Contenedor para mostrar las rutas cercanas -->
+        <div id="rutasDisponibles" class="rutas-container"></div>
+    </div>
+
+    <div class="barra-inferior">
+        <button class="boton" onclick="location.href='/historial_viajes'">Historial  de Viajes</button>
+    </div>
+
+    <!-- Script de Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6SxCAe5Cb6q5vqXc7moZUpPluEyHwND4&libraries=places&callback=iniciarMap" async defer></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
+  
