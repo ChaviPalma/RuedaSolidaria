@@ -1,41 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Conductor</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Estilos CSS personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>Crear Conductor</h1>
+    <div class="container mt-5">
+        <h1 class="text-center">Crear Conductor</h1>
 
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-            <ul>
-            {% for category, message in messages %}
-                <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="alert alert-info">
+                    <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
 
-    <form method="POST" action="{{ url_for('conductores.crear_conductor') }}">
-        <label for="conductor_id">ID del Conductor:</label>
-        <input type="number" name="conductor_id" required>
+        <form method="POST" action="{{ url_for('conductores.crear_conductor') }}">
+            <div class="form-group">
+                <label for="conductor_id">ID del Conductor:</label>
+                <input type="number" class="form-control" name="conductor_id" required>
+            </div>
 
-        <label for="pnombre_cond">Primer Nombre:</label>
-        <input type="text" name="pnombre_cond" required>
+            <div class="form-group">
+                <label for="pnombre_cond">Primer Nombre:</label>
+                <input type="text" class="form-control" name="pnombre_cond" required>
+            </div>
 
-        <label for="snombre_cond">Segundo Nombre:</label>
-        <input type="text" name="snombre_cond">
+            <div class="form-group">
+                <label for="snombre_cond">Segundo Nombre:</label>
+                <input type="text" class="form-control" name="snombre_cond">
+            </div>
 
-        <label for="appaterno_cond">Apellido Paterno:</label>
-        <input type="text" name="appaterno_cond">
+            <div class="form-group">
+                <label for="appaterno_cond">Apellido Paterno:</label>
+                <input type="text" class="form-control" name="appaterno_cond">
+            </div>
 
-        <label for="apmaterno_cond">Apellido Materno:</label>
-        <input type="text" name="apmaterno_cond">
+            <div class="form-group">
+                <label for="apmaterno_cond">Apellido Materno:</label>
+                <input type="text" class="form-control" name="apmaterno_cond">
+            </div>
 
-        <label for="inst_id">ID del Establecimiento:</label>
-        <input type="number" name="inst_id" required>
+            <div class="form-group">
+                <label for="inst_id">ID del Establecimiento:</label>
+                <input type="number" class="form-control" name="inst_id" required>
+            </div>
 
-        <button type="submit">Crear Conductor</button>
-    </form>
+            <button type="submit" class="btn btn-primary btn-block">Crear Conductor</button>
+        </form>
+        <a href="{{ url_for('conductores.listar_conductores') }}" class="btn btn-secondary btn-block mt-3">Volver a la lista de Conductores</a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

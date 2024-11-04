@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Crear Ruta</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Crear Ruta</h1>
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <ul class="list-unstyled">
+                {% for category, message in messages %}
+                    <li class="alert alert-{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" class="mt-4">
+            <div class="form-group">
+                <label for="id">ID Ruta:</label>
+                <input type="number" class="form-control" name="id" required>
+            </div>
+
+            <div class="form-group">
+                <label for="origen">Origen:</label>
+                <input type="text" class="form-control" name="origen" required>
+            </div>
+
+            <div class="form-group">
+                <label for="destino">Destino:</label>
+                <input type="text" class="form-control" name="destino" required>
+            </div>
+
+            <div class="form-group">
+                <label for="puntos">Puntos:</label>
+                <textarea class="form-control" name="puntos" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="cupos_disponibles">Cupos Disponibles:</label>
+                <input type="number" class="form-control" name="cupos_disponibles" value="0" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Crear Ruta</button>
+        </form>
+
+        <br>
+        <a href="{{ url_for('rutas.listar_rutas') }}" class="btn btn-secondary">Volver a la lista de Rutas</a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

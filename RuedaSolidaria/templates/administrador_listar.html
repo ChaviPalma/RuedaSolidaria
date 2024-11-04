@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Administradores</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Lista de Administradores</h1>
+        
+        <table class="table table-striped mt-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID del Administrador</th>
+                    <th>Primer Nombre</th>
+                    <th>Segundo Nombre</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Acciones</th>  
+                </tr>
+            </thead>
+            <tbody>
+                {% for administrador in administradores %}
+                <tr>
+                    <td>{{ administrador.admin_ID }}</td>
+                    <td>{{ administrador.pnombre_admin }}</td>
+                    <td>{{ administrador.snombre_admin }}</td>
+                    <td>{{ administrador.apaterno_admin }}</td>
+                    <td>{{ administrador.amaterno_admin }}</td>
+                    <td>{{ administrador.email }}</td>
+                    <td>{{ administrador.telefono }}</td>
+                    <td>
+                        <a href="{{ url_for('administradores.actualizar_administrador', admin_ID=administrador.admin_ID) }}" class="btn btn-info btn-sm">Actualizar</a>
+                        <form method="POST" action="{{ url_for('administradores.eliminar_administrador', admin_ID=administrador.admin_ID) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este administrador?');">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('administradores.crear_administrador') }}" class="btn btn-primary">Crear Nuevo Administrador</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+from collections import namedtuple
 import mysql.connector
 
 class UsuarioModel:
@@ -5,7 +6,7 @@ class UsuarioModel:
         self.connection = mysql.connector.connect(
             host='localhost',
             user='root',
-            password='loki',
+            password='',
             database='RuedaSolidaria'
         )
         self.cursor = self.connection.cursor()
@@ -20,6 +21,7 @@ class UsuarioModel:
         finally:
             self.cursor.close()
             self.connection.close()
+
 
     def buscar_usuario(self, email):
         try:
@@ -47,7 +49,7 @@ class UsuarioModel:
     def eliminar_usuario(self, email):
         try:
             query = "DELETE FROM USUARIOS WHERE EMAIL = %s"
-            self.cursor.execute(query, (email,))
+            self.cursor.execute(query, (email,))  
             self.connection.commit()
         except mysql.connector.Error as err:
             print(f"Error: {err}")
@@ -56,6 +58,9 @@ class UsuarioModel:
             self.connection.close()
 
     def listar_usuarios(self):
+
+    def listar_usuarios(self): 
+
         try:
             query = "SELECT user_ID, email, admin_ID, conductor_ID, alumno_ID FROM USUARIOS"
             self.cursor.execute(query)
@@ -63,6 +68,9 @@ class UsuarioModel:
 
             from collections import namedtuple
             Usuario = namedtuple('Usuario', 'user_ID, email, admin_ID, conductor_ID, alumno_ID')
+
+            Usuario = namedtuple('Usuario', 'user_ID, email, admin_ID, conductor_ID, alumno_ID')  
+
             usuarios = [Usuario(*usuario) for usuario in usuarios]
 
             return usuarios
@@ -70,4 +78,5 @@ class UsuarioModel:
             print(f"Error, {err}")
         finally:
             self.cursor.close()
+
             self.connection.close()
