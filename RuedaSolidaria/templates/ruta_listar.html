@@ -17,22 +17,22 @@
                     <th>ID Ruta</th>
                     <th>Origen</th>
                     <th>Destino</th>
-                    <th>ID Establecimiento</th>
-                    <th>ID Conductor</th>
+                    <th>Puntos</th>
+                    <th>Cupos Disponibles</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 {% for ruta in rutas %}
                 <tr>
-                    <td>{{ ruta.ID_ruta }}</td>
-                    <td>{{ ruta.Origen }}</td>
-                    <td>{{ ruta.Destino }}</td>
-                    <td>{{ ruta.est_ID }}</td>
-                    <td>{{ ruta.conductor_ID }}</td>
+                    <td>{{ ruta.id }}</td>
+                    <td>{{ ruta.origen }}</td>
+                    <td>{{ ruta.destino }}</td>
+                    <td>{{ ruta.puntos }}</td>
+                    <td>{{ ruta.cupos_disponibles }}</td>
                     <td>
-                        <a href="{{ url_for('rutas.actualizar_ruta', ID_ruta=ruta.ID_ruta) }}" class="btn btn-warning btn-sm">Editar</a>
-                        <form method="POST" action="{{ url_for('rutas.eliminar_ruta', ID_ruta=ruta.ID_ruta) }}" style="display:inline;">
+                        <a href="{{ url_for('rutas.actualizar_ruta', id=ruta.id) }}" class="btn btn-warning btn-sm">Editar</a>
+                        <form method="POST" action="{{ url_for('rutas.eliminar_ruta', id=ruta.id) }}" style="display:inline;">
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta ruta?');">Eliminar</button>
                         </form>
                     </td>

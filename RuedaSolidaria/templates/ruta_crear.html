@@ -15,7 +15,7 @@
             {% if messages %}
                 <ul class="list-unstyled">
                 {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
+                    <li class="alert alert-{{ category }}">{{ message }}</li>
                 {% endfor %}
                 </ul>
             {% endif %}
@@ -23,28 +23,28 @@
 
         <form method="POST" class="mt-4">
             <div class="form-group">
-                <label for="ID_ruta">ID Ruta:</label>
-                <input type="number" class="form-control" name="ID_ruta" required>
+                <label for="id">ID Ruta:</label>
+                <input type="number" class="form-control" name="id" required>
             </div>
 
             <div class="form-group">
-                <label for="Origen">Origen:</label>
-                <input type="text" class="form-control" name="Origen" required>
+                <label for="origen">Origen:</label>
+                <input type="text" class="form-control" name="origen" required>
             </div>
 
             <div class="form-group">
-                <label for="Destino">Destino:</label>
-                <input type="text" class="form-control" name="Destino" required>
+                <label for="destino">Destino:</label>
+                <input type="text" class="form-control" name="destino" required>
             </div>
 
             <div class="form-group">
-                <label for="est_ID">ID Establecimiento:</label>
-                <input type="number" class="form-control" name="est_ID" required>
+                <label for="puntos">Puntos:</label>
+                <textarea class="form-control" name="puntos" required></textarea>
             </div>
 
             <div class="form-group">
-                <label for="conductor_ID">ID Conductor:</label>
-                <input type="number" class="form-control" name="conductor_ID" required>
+                <label for="cupos_disponibles">Cupos Disponibles:</label>
+                <input type="number" class="form-control" name="cupos_disponibles" value="0" required>
             </div>
 
             <button type="submit" class="btn btn-primary">Crear Ruta</button>

@@ -9,22 +9,22 @@
 <body>
     <div class="container mt-5">
         <h1>Actualizar Ruta</h1>
-        <form action="{{ url_for('rutas.actualizar_ruta', ID_ruta=ID_ruta) }}" method="POST"> 
+        <form action="{{ url_for('rutas.actualizar_ruta', id=id) }}" method="POST">
             <div class="form-group">
-                <label for="Origen">Origen</label>
-                <input type="text" class="form-control" id="Origen" name="Origen" value="{{ request.form.get('Origen', '') }}" required>
+                <label for="origen">Origen</label>
+                <input type="text" class="form-control" id="origen" name="origen" value="{{ request.form.get('origen', '') }}" required>
             </div>
             <div class="form-group">
-                <label for="Destino">Destino</label>
-                <input type="text" class="form-control" id="Destino" name="Destino" value="{{ request.form.get('Destino', '') }}" required>
+                <label for="destino">Destino</label>
+                <input type="text" class="form-control" id="destino" name="destino" value="{{ request.form.get('destino', '') }}" required>
             </div>
             <div class="form-group">
-                <label for="est_ID">ID Establecimiento</label>
-                <input type="text" class="form-control" id="est_ID" name="est_ID" value="{{ request.form.get('est_ID', '') }}" readonly> 
+                <label for="puntos">Puntos</label>
+                <input type="text" class="form-control" id="puntos" name="puntos" value="{{ request.form.get('puntos', '') }}" required>
             </div>
             <div class="form-group">
-                <label for="conductor_ID">ID Conductor</label>
-                <input type="text" class="form-control" id="conductor_ID" name="conductor_ID" value="{{ request.form.get('conductor_ID', '') }}" readonly>
+                <label for="cupos_disponibles">Cupos Disponibles</label>
+                <input type="number" class="form-control" id="cupos_disponibles" name="cupos_disponibles" value="{{ request.form.get('cupos_disponibles', 0) }}">
             </div>
             <button type="submit" class="btn btn-primary">Actualizar Ruta</button>
             <a href="{{ url_for('rutas.listar_rutas') }}" class="btn btn-secondary">Cancelar</a>
