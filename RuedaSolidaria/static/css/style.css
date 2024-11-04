@@ -199,3 +199,69 @@ footer {
     text-align: center;
     cursor: pointer;
 }
+
+
+
+
+
+
+
+
+/* Estilo general para la sección del carrusel */
+.inicio {
+    height: 50vh; /* Altura de la sección para ocupar toda la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa; /* Fondo claro para contraste */
+    margin: 0; /* Elimina el margen exterior */
+    padding: 0; /* Elimina el relleno exterior */
+    overflow: hidden; /* Asegúrate de que no haya desbordamiento */
+}
+
+/* Estilo para el carrusel */
+.carousel {
+    width: 100%; /* Ancho del carrusel para ocupar toda la pantalla */
+    height: 100%; /* Altura del carrusel para ocupar toda la pantalla */
+    overflow: hidden; /* Ocultar contenido desbordado */
+    position: relative;
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 1s ease-in-out; /* Transición suave */
+    height: 100%; /* Asegura que la altura se mantenga */
+}
+
+.carousel-item {
+    min-width: 100%; /* Cada imagen ocupa el 100% del carrusel */
+    height: 100%; /* Altura completa */
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta la imagen para que se vea bien */
+}
+
+/* Botones de control del carrusel (puedes eliminar estos si no los necesitas) */
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 10;
+}
+
+.carousel-control.prev {
+    left: 10px;
+}
+
+.carousel-control.next {
+    right: 10px;
+}

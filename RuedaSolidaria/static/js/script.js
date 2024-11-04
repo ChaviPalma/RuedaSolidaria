@@ -13,8 +13,6 @@ typewriter
   .deleteChars(10)
   .start();
 
-
-
 // Función para inicializar el mapa y los servicios de direcciones
 function iniciarMap() {
   // Configuración inicial del mapa
@@ -22,12 +20,6 @@ function iniciarMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 10,
     center: coord,
-  });
-
-  // Crear un marcador inicial en la coordenada especificada
-  const marker = new google.maps.Marker({
-    position: coord,
-    map: map,
   });
 
   // Inicializar DirectionsService y DirectionsRenderer
@@ -97,3 +89,49 @@ function guardarRutaEnBaseDeDatos(ruta, inicio, destino, cupos) {
 
 // Asegúrate de llamar a la función iniciarMap cuando cargue la página
 window.onload = iniciarMap;
+
+let currentSlide = 0;
+
+function moveCarousel(direction) {
+    const items = document.querySelectorAll('.carousel-item');
+    items[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + direction + items.length) % items.length;
+    items[currentSlide].classList.add('active');
+    updateCarousel();
+}
+
+function updateCarousel() {
+    const carouselInner = document.querySelector('.carousel-inner');
+    carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateCarousel();
+});
+
+function cargarRutas() {
+  $.ajax({
+      url: '/gestionar_rutas',
+      method: 'GET',
+      success: function(data) {
+          var rutaContainer = $('#ruta-container');
+          rutaContainer.empty();  // Limpia el contenedor antes de llenarlo
+
+          // Asegúrate de que 'data' es un arreglo
+          if (Array.isArray(data)) {
+              data.forEach(function(ruta) {
+                  rutaContainer.append('<div class="ruta-card">' +
+                      '<h3>origen: ' + ruta.origen + '</h3>' +  // Esto ahora coincide
+                      '<p>destino: ' + ruta.destino + '</p>' +  // Esto ahora coincide
+                      '<p>cupos_disponibles: ' + ruta.cupos_disponibles + '</p>' +  // Esto ahora coincide
+                      '</div>');
+              });
+          } else {
+              console.error("Los datos devueltos no son un arreglo:", data);
+          }
+      },
+      error: function(xhr) {
+          console.error("Error al cargar las rutas:", xhr);
+      }
+  });
+}

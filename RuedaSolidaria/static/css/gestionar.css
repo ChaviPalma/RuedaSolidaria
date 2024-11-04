@@ -1,0 +1,37 @@
+/* Estilos generales para el contenedor */
+#ruta-container {
+    display: flex;
+    flex-direction: column; /* Las tarjetas se apilan verticalmente */
+    align-items: center; /* Centra las tarjetas horizontalmente */
+    padding: 20px; /* Espaciado alrededor del contenedor */
+    background-color: #f4f4f4; /* Color de fondo suave */
+}
+
+/* Estilos para cada tarjeta de ruta */
+.ruta-card {
+    background-color: #fff; /* Fondo blanco para las tarjetas */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 15px; /* Espaciado interno de las tarjetas */
+    margin: 10px 0; /* Margen entre las tarjetas */
+    width: 80%; /* Ancho de las tarjetas */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: transform 0.2s; /* Transición suave para el hover */
+}
+
+/* Efecto hover para las tarjetas */
+.ruta-card:hover {
+    transform: translateY(-5px); /* Levanta la tarjeta un poco al pasar el mouse */
+}
+
+/* Estilos para los encabezados dentro de las tarjetas */
+.ruta-card h3 {
+    margin: 0; /* Elimina margen para el encabezado */
+    color: #333; /* Color del texto del encabezado */
+}
+
+/* Estilos para los párrafos dentro de las tarjetas */
+.ruta-card p {
+    margin: 5px 0; /* Margen vertical entre párrafos */
+    color: #666; /* Color del texto de los párrafos */
+}

@@ -27,3 +27,33 @@ def guardar_ruta():
         db.session.rollback()
         print(f"Error al guardar la ruta: {e}")  # Agregar registro del error
         return jsonify({'message': 'Error al guardar la ruta', 'error': str(e)}), 500
+
+@ruta_blueprint.route('/buscar_rutas', methods=['POST'])
+def buscar_rutas():
+    data = request.get_json()
+    direccion = data.get('direccion')
+
+    # Validar que se reciba la dirección
+    if not direccion:
+        return jsonify({'message': 'La dirección es requerida'}), 400
+
+    try:
+        # Aquí puedes implementar la lógica para calcular las rutas más cercanas
+        # Supongamos que tienes una lógica de filtrado que puedes usar para encontrar las rutas cercanas
+        rutas_cercanas = Ruta.query.filter(Ruta.origen.like(f'{direccion}%')).all()  # Filtrar rutas por origen que comience con la dirección ingresada
+
+        # Preparar la respuesta con las rutas encontradas
+        rutas_respuesta = [
+            {
+                'origen': ruta.origen,
+                'destino': ruta.destino,
+                'cupos_disponibles': ruta.cupos_disponibles
+            }
+            for ruta in rutas_cercanas
+        ]
+
+        return jsonify(rutas_respuesta)
+
+    except Exception as e:
+        print(f"Error al buscar rutas: {e}")  # Agregar registro del error
+        return jsonify({'message': 'Error al buscar rutas', 'error': str(e)}), 500
