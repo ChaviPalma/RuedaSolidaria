@@ -1,48 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <title>Document</title>
+    <title>Panel de Administración</title>
 </head>
 <body>
 
-    <h1>Bienvenido</h1>
+    <div class="container mt-5">
+        <h1 class="text-center">Panel de Administración</h1>
+        <hr>
 
-    <h2>Usuarios</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Usuarios</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ url_for('usuarios.listar_usuarios') }}" class="btn btn-primary btn-block">Listar Usuarios</a>
+                    </div>
+                </div>
+            </div>
 
-    <a href="{{ url_for('usuarios.listar_usuarios') }}">Listar Usuarios</a> 
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Conductores</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ url_for('conductores.listar_conductores') }}" class="btn btn-primary btn-block">Listar Conductores</a>
+                    </div>
+                </div>
+            </div>
 
-    <h2>Conductores</h2>
-    
-    <a href="{{ url_for('conductores.listar_conductores') }}">Listar Conductores</a>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Establecimientos</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ url_for('establecimientos.listar_establecimientos') }}" class="btn btn-primary btn-block">Listar Establecimientos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <h2>Establecimientos</h2>
-    
-    <a href="{{ url_for('establecimientos.listar_establecimientos') }}">Listar Establecimientos</a>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Rutas</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ url_for('rutas.listar_rutas') }}" class="btn btn-primary btn-block">Listar Rutas</a>
+                    </div>
+                </div>
+            </div>
 
-    <h2>Rutas</h2> 
-    
-    <a href="{{ url_for('rutas.listar_rutas') }}">Listar Rutas</a> 
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Vehículos</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ url_for('vehiculos.listar_vehiculos') }}" class="btn btn-primary btn-block">Listar Vehículos</a>
+                    </div>
+                </div>
+            </div>
 
-    <h2>Vehículos</h2>
-    <a href="{{ url_for('vehiculos.crear_vehiculo') }}">Crear Vehículo</a>
-    <a href="{{ url_for('vehiculos.listar_vehiculos') }}">Listar Vehículos</a>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Alumnos</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ url_for('alumnos.listar_alumnos') }}" class="btn btn-primary btn-block">Listar Alumnos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <h2>Alumnos</h2>
-  
-    <a href="{{ url_for('alumnos.listar_alumnos') }}">Listar Alumnos</a>
-   
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Administradores</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ url_for('administradores.listar_administradores') }}" class="btn btn-primary btn-block">Listar Administradores</a>
+                    </div>
+                </div>
+            </div>
 
-    <h2>Administradores</h2>
-    
-    <a href="{{ url_for('administradores.listar_administradores') }}">Listar Administradores</a>
-   
-    
-    <h2>Viajes</h2>
-    
-    <a href="{{ url_for('viajes.listar_viajes') }}">Listar Viajes</a>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Viajes</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ url_for('viajes.listar_viajes') }}" class="btn btn-primary btn-block">Listar Viajes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <footer class="text-center mt-4 mb-4">
+        <p>© 2024 Tu Empresa. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

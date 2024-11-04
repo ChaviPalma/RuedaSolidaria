@@ -11,10 +11,13 @@ class RutaModel:
         )
         self.cursor = self.connection.cursor()
 
-    def crear_ruta(self, ID_ruta, Origen, Destino, est_ID, conductor_ID):
+    def crear_ruta(self, origen, destino, puntos, cupos_disponibles=0):
         try:
-            query = "INSERT INTO Ruta (ID_ruta, Origen, Destino, est_ID, conductor_ID) VALUES (%s, %s, %s, %s, %s)"
-            self.cursor.execute(query, (ID_ruta, Origen, Destino, est_ID, conductor_ID))
+            query = """
+                INSERT INTO ruta (origen, destino, puntos, cupos_disponibles) 
+                VALUES (%s, %s, %s, %s)
+            """
+            self.cursor.execute(query, (origen, destino, puntos, cupos_disponibles))
             self.connection.commit()
         except mysql.connector.Error as err:
             print(f"Error: {err}")
@@ -24,12 +27,12 @@ class RutaModel:
 
     def listar_rutas(self):
         try:
-            query = "SELECT ID_ruta, Origen, Destino, est_ID, conductor_ID FROM Ruta"
+            query = "SELECT id, origen, destino, puntos, cupos_disponibles FROM ruta"
             self.cursor.execute(query)
             rutas = self.cursor.fetchall()
 
-        
-            Ruta = namedtuple('Ruta', 'ID_ruta, Origen, Destino, est_ID, conductor_ID')
+            # Definir una tupla nombrada para un acceso más claro a los datos
+            Ruta = namedtuple('Ruta', 'id origen destino puntos cupos_disponibles')
             rutas = [Ruta(*ruta) for ruta in rutas]
 
             return rutas
@@ -40,25 +43,23 @@ class RutaModel:
             self.cursor.close()
             self.connection.close()
 
-
-    def actualizar_ruta(self, ID_ruta, Origen, Destino, est_ID, conductor_ID):
+    def actualizar_ruta(self, id, origen, destino, puntos, cupos_disponibles):
         try:
-            with self.connection.cursor() as cursor:
-                query = """
-                    UPDATE Ruta 
-                    SET Origen = %s, Destino = %s, est_ID = %s, conductor_ID = %s 
-                    WHERE ID_ruta = %s
-                """
-                cursor.execute(query, (Origen, Destino, est_ID, conductor_ID, ID_ruta))
-                self.connection.commit()
+            query = """
+                UPDATE ruta 
+                SET origen = %s, destino = %s, puntos = %s, cupos_disponibles = %s
+                WHERE id = %s
+            """
+            self.cursor.execute(query, (origen, destino, puntos, cupos_disponibles, id))
+            self.connection.commit()
         except mysql.connector.Error as err:
             self.connection.rollback()
             print(f"Error al actualizar la ruta: {err}")
 
-    def eliminar_ruta(self, ID_ruta):
+    def eliminar_ruta(self, id):
         try:
-            query = "DELETE FROM Ruta WHERE ID_ruta = %s"
-            self.cursor.execute(query, (ID_ruta,))
+            query = "DELETE FROM ruta WHERE id = %s"
+            self.cursor.execute(query, (id,))
             self.connection.commit()
         except mysql.connector.Error as err:
             print(f"Error: {err}")
