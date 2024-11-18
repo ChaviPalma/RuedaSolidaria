@@ -11,26 +11,28 @@ class AdministradorModel:
         )
         self.cursor = self.connection.cursor()
 
-    def crear_administrador(self, admin_ID, pnombre_admin, snombre_admin, apaterno_admin, amaterno_admin, email, contrasena, telefono, fecha_creacion, estado):
+    def crear_administrador(self, pnombre_admin, snombre_admin, apaterno_admin, amaterno_admin, email, contrasena, telefono, id_tipo_usuario, estado='A'):
         try:
             query = """
-                INSERT INTO Administrador (admin_ID, pnombre_admin, snombre_admin, apaterno_admin, amaterno_admin, email, contrasena, telefono, fecha_creacion, estado)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                INSERT INTO Administrador (pnombre_admin, snombre_admin, apaterno_admin, amaterno_admin, email, contrasena, telefono, id_tipo_usuario, estado)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
-            self.cursor.execute(query, (admin_ID, pnombre_admin, snombre_admin, apaterno_admin, amaterno_admin, email, contrasena, telefono, fecha_creacion, estado))
+            self.cursor.execute(query, (pnombre_admin, snombre_admin, apaterno_admin, amaterno_admin, email, contrasena, telefono, id_tipo_usuario, estado))
             self.connection.commit()
         except mysql.connector.Error as err:
             print(f"Error: {err}")
 
     def buscar_administrador(self, admin_ID):
         try:
-            query ="SELECT admin_ID, pnombre_admin, snombre_admin, apaterno_admin, amaterno_admin, email, contrasena, telefono, fecha_creacion, estado FROM Administrador WHERE admin_ID = %s"
-
+            query = """
+                SELECT admin_ID, pnombre_admin, snombre_admin, apaterno_admin, amaterno_admin, email, contrasena, telefono, fecha_creacion, estado, id_tipo_usuario
+                FROM Administrador WHERE admin_ID = %s
+            """
             self.cursor.execute(query, (admin_ID,))
             result = self.cursor.fetchone()
 
             if result:
-                Administrador = namedtuple('Administrador', 'admin_ID pnombre_admin snombre_admin apaterno_admin amaterno_admin email contrasena telefono fecha_creacion estado')
+                Administrador = namedtuple('Administrador', 'admin_ID pnombre_admin snombre_admin apaterno_admin amaterno_admin email contrasena telefono fecha_creacion estado id_tipo_usuario')
                 return Administrador(*result)
             return None
         except mysql.connector.Error as err:
@@ -39,23 +41,26 @@ class AdministradorModel:
 
     def listar_administradores(self):
         try:
-            query = "SELECT * FROM Administrador"
+            query = """
+                SELECT admin_ID, pnombre_admin, snombre_admin, apaterno_admin, amaterno_admin, email, contrasena, telefono, fecha_creacion, estado, id_tipo_usuario
+                FROM Administrador
+            """
             self.cursor.execute(query)
             results = self.cursor.fetchall()
-            Administrador = namedtuple('Administrador', 'admin_ID pnombre_admin snombre_admin apaterno_admin amaterno_admin email contrasena telefono fecha_creacion estado')
-            return [Administrador(*result) for result in results]  # Convierte cada tupla a un namedtuple
+            Administrador = namedtuple('Administrador', 'admin_ID pnombre_admin snombre_admin apaterno_admin amaterno_admin email contrasena telefono fecha_creacion estado id_tipo_usuario')
+            return [Administrador(*result) for result in results]
         except mysql.connector.Error as err:
             print(f"Error: {err}")
             return []
 
-    def actualizar_administrador(self, admin_ID, pnombre_admin, snombre_admin, apaterno_admin, amaterno_admin, email, contrasena, telefono):
+    def actualizar_administrador(self, admin_ID, pnombre_admin, snombre_admin, apaterno_admin, amaterno_admin, email, contrasena, telefono, id_tipo_usuario):
         try:
             query = """
                 UPDATE Administrador
-                SET pnombre_admin = %s, snombre_admin = %s, apaterno_admin = %s, amaterno_admin = %s, email = %s, contrasena = %s, telefono = %s
+                SET pnombre_admin = %s, snombre_admin = %s, apaterno_admin = %s, amaterno_admin = %s, email = %s, contrasena = %s, telefono = %s, id_tipo_usuario = %s
                 WHERE admin_ID = %s
             """
-            self.cursor.execute(query, (pnombre_admin, snombre_admin, apaterno_admin, amaterno_admin, email, contrasena, telefono, admin_ID))
+            self.cursor.execute(query, (pnombre_admin, snombre_admin, apaterno_admin, amaterno_admin, email, contrasena, telefono, id_tipo_usuario, admin_ID))
             self.connection.commit()
         except mysql.connector.Error as err:
             print(f"Error: {err}")

@@ -10,7 +10,7 @@
 <body>
     <div class="container mt-5">
         <h1>Actualizar Usuario</h1>
-        <form action="{{ url_for('usuarios.actualizar_usuario', usuario_ID=usuario.usuario_ID) }}" method="POST">
+        <form action="{{ url_for('usuarios.actualizar_usuario', email=usuario.correo) }}" method="POST">
             <div class="form-group">
                 <label for="usuario_ID">ID del Usuario</label>
                 <input type="text" class="form-control" id="usuario_ID" name="usuario_ID" value="{{ usuario.usuario_ID }}" readonly>
@@ -21,14 +21,12 @@
             </div>
             <div class="form-group">
                 <label for="correo">Correo Electrónico</label>
-                <input type="email" class="form-control" id="correo" name="correo" value="{{ usuario.correo }}" required>
+                <input type="email" class="form-control" id="correo" name="correo" value="{{ usuario.correo }}" required readonly>
             </div>
             <div class="form-group">
-                <label for="rol">Rol</label>
-                <select class="form-control" id="rol" name="rol" required>
-                    <option value="admin" {% if usuario.rol == 'admin' %}selected{% endif %}>Admin</option>
-                    <option value="user" {% if usuario.rol == 'user' %}selected{% endif %}>Usuario</option>
-                </select>
+                <label for="tipo_usuario">Tipo de Usuario</label>
+                <!-- El campo "Tipo de Usuario" es solo de lectura, no se puede modificar -->
+                <input type="text" class="form-control" id="tipo_usuario" name="tipo_usuario" value="{{ usuario.tipo_usuario.descripcion }}" readonly>
             </div>
             <button type="submit" class="btn btn-primary">Actualizar Usuario</button>
             <a href="{{ url_for('usuarios.listar_usuarios') }}" class="btn btn-secondary">Cancelar</a>
@@ -45,7 +43,7 @@
         {% endwith %}
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Scripts de Bootstrap y Popper -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
