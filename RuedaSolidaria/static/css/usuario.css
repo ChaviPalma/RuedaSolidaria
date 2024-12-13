@@ -29,39 +29,6 @@ h1 {
     margin-top: 20px; 
 }
 
-/*detalle*/
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 20px;
-}
-
-.container {
-    max-width: 600px;
-    margin: auto;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-    color: #343a40;
-}
-
-.list-group {
-    margin: 20px 0;
-}
-
-.list-group-item {
-    font-size: 1.1em;
-}
-
-.btn {
-    margin-right: 10px;
-}
 
 /*actualizar*/
 body {
