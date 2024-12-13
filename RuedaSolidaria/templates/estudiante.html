@@ -9,12 +9,10 @@
         let map;
         let directionsService;
         let directionsRenderer;
-        let rutaGuardada = null; // Variable para almacenar la ruta calculada
 
-        // Inicializar el mapa y los servicios de direcciones
         function iniciarMap() {
             map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: -34.397, lng: 150.644 }, // Cambia las coordenadas iniciales según tu preferencia
+                center: { lat: -34.397, lng: 150.644 },
                 zoom: 8
             });
 
@@ -23,44 +21,60 @@
             directionsRenderer.setMap(map);
         }
 
-        // Función para buscar rutas cercanas desde la dirección del estudiante
         function buscarRutasCercanas() {
             const direccion = document.getElementById("inicio").value;
 
-            fetch('/buscar_rutas', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ direccion: direccion })
-            })
-            .then(response => response.json())
-            .then(data => {
-                mostrarRutas(data); // Llama a la función que muestra las rutas
-            })
-            .catch(error => {
-                console.error("Error al buscar rutas:", error);
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'address': direccion }, function(results, status) {
+                if (status === 'OK') {
+                    const latitud = results[0].geometry.location.lat();
+                    const longitud = results[0].geometry.location.lng();
+
+                    fetch('/buscar_rutas', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ latitud: latitud, longitud: longitud })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Verificar si hay rutas antes de mostrarlas
+                        if (data.rutas && data.rutas.length > 0) {
+                            mostrarRutasEnMapa(data.rutas); 
+                        } else {
+                            console.log("No se encontraron rutas."); 
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al buscar rutas:", error);
+                    });
+
+                } else {
+                    alert('Error al geocodificar la dirección: ' + status);
+                }
             });
         }
 
-        // Función para mostrar las rutas en el contenedor
-        function mostrarRutas(rutas) {
-            const contenedorRutas = document.getElementById("rutasDisponibles");
-            contenedorRutas.innerHTML = ''; // Limpiar el contenedor antes de mostrar nuevas rutas
+        function mostrarRutasEnMapa(rutas) {
+            directionsRenderer.setDirections({ routes: [] });
 
-            if (rutas.length === 0) {
-                contenedorRutas.innerHTML = '<p>No se encontraron rutas disponibles.</p>';
-            } else {
-                rutas.forEach(ruta => {
-                    const rutaElement = document.createElement("div");
-                    rutaElement.innerHTML = `
-                        <p>Origen: ${ruta.origen}</p>
-                        <p>Destino: ${ruta.destino}</p>
-                        <p>Cupos Disponibles: ${ruta.cupos_disponibles}</p>
-                        <hr>
-                    `;
-                    contenedorRutas.appendChild(rutaElement);
+            rutas.forEach(ruta => {
+                const decodedPath = google.maps.geometry.encoding.decodePath(ruta.puntos);
+                directionsRenderer.setDirections({
+                    routes: [{ overview_path: decodedPath }]
                 });
-            }
+            });
         }
+
+        // Asegúrate de que el script se ejecuta después de que se cargue el DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            // Llamar a la función iniciarMap cuando cargue la página
+            iniciarMap();
+
+            // Evento para el botón de búsqueda
+            document.getElementById("calcularRuta").addEventListener("click", function() {
+                buscarRutasCercanas();
+            });
+        });
     </script>
 </head>
 <body>

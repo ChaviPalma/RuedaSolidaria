@@ -58,32 +58,57 @@
             });
         }
 
+
         // Función para enviar la ruta al backend
-        function guardarRutaEnBaseDeDatos(ruta) {
-            const puntos = ruta.overview_path.map(punto => ({
+        function guardarRutaEnBaseDeDatos() {
+            // 1. Obtener la información de la ruta desde la API de Google Maps
+            const directions = directionsRenderer.getDirections();
+          
+            if (directions) {
+              const ruta = directions.routes[0];
+              const origen = ruta.legs[0].start_address;
+              const destino = ruta.legs[0].end_address;
+          
+              // Acceder a la propiedad overview_path correctamente
+              const puntos = ruta.overview_path.map(punto => ({
                 lat: punto.lat(),
                 lng: punto.lng()
-            }));
-
-            fetch('/guardar_ruta', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    origen: document.getElementById("inicio").value,
-                    destino: document.getElementById("destino").value,
-                    puntos,
-                    cupos: document.getElementById("cupos").value // Incluir los cupos
+              }));
+          
+              const cupos = parseInt(document.getElementById("cupos").value); // Asegúrate de que cupos sea un número
+          
+              // 2.  Enviar la información al backend
+              fetch('/guardar_ruta', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    origen: origen,
+                    destino: destino,
+                    puntos: puntos,
+                    cupos_disponibles: cupos
+                  })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert("Ruta guardada exitosamente");
-                rutaGuardada = null; // Reinicia la variable después de guardar
-            })
-            .catch(error => {
-                console.error("Error al guardar la ruta:", error);
-            });
-        }
+                .then(response => {
+                  if (response.ok || response.status === 201) {
+                    return response.json();
+                  } else {
+                    // Lanzar un error con el código de estado y el mensaje del servidor
+                    throw new Error(`Error ${response.status}: ${response.statusText}`);
+                  }
+                })
+                .then(data => {
+                  console.log('Respuesta del servidor:', data);
+                  alert("Ruta guardada exitosamente");
+                })
+                .catch(error => {
+                  console.error("Error al guardar la ruta:", error);
+                  // Mostrar un mensaje de error al usuario
+                  alert(`Error al guardar la ruta: ${error.message}`);
+                });
+            } else {
+              alert("Primero debes calcular una ruta.");
+            }
+          }
     </script>
 </head>
 <body>

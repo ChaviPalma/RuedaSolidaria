@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from collections import namedtuple
 from modelo.usuario import UsuarioModel
 import mysql.connector
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash  
 from modelo.tipo_usuario import TipoUsuarioModel
 
 usuarios_bp = Blueprint('usuarios', __name__)
@@ -61,24 +61,28 @@ def login():
         usuario_model = UsuarioModel()
         usuario = usuario_model.buscar_usuario(email)
 
-        if usuario and usuario[2] == contrasena:  # Se verifica la contraseña contra la almacenada
-            session['usuario_id'] = usuario[0]  
-            dominio = email.split('@')[1]
+        if usuario:
+            # Usar check_password_hash para comparar la contraseña introducida con el hash almacenado
+            if check_password_hash(usuario[2], contrasena):  
+                session['usuario_id'] = usuario[0]
+                dominio = email.split('@')[1]
 
-            # Redirigir dependiendo del dominio
-            if dominio in ['estcolegionacional.edu', 'estescuelaprimarialibertad.edu', 'estinstitutotecnologicocentral.edu', 'estescuelasecundarialosalamos.edu']:
-                return redirect(url_for('usuarios.estudiante'))  # Redirige a estudiante.html
-            elif dominio in ['concolegionacional.edu', 'conescuelaprimarialibertad.edu', 'coninstitutotecnologicocentral.edu', 'conescuelasecundarialosalamos.edu']:
-                return redirect(url_for('usuarios.conductor'))  # Redirige a conductor.html
+                # Redirigir dependiendo del dominio
+                if dominio in ['estcolegionacional.edu', 'estescuelaprimarialibertad.edu', 'estinstitutotecnologicocentral.edu', 'estescuelasecundarialosalamos.edu']:
+                    return redirect(url_for('usuarios.estudiante'))  # Redirige a estudiante.html
+                elif dominio in ['concolegionacional.edu', 'conescuelaprimarialibertad.edu', 'coninstitutotecnologicocentral.edu', 'conescuelasecundarialosalamos.edu']:
+                    return redirect(url_for('usuarios.conductor'))  # Redirige a conductor.html
 
-            # Asegurarse de que el dominio se maneje correctamente
-            if dominio == 'estudiante.com':
-                return redirect(url_for('usuarios.estudiante'))  
-            elif dominio == 'conductor.com':
-                return redirect(url_for('usuarios.conductor'))  
+                # Asegurarse de que el dominio se maneje correctamente
+                if dominio == 'estudiante.com':
+                    return redirect(url_for('usuarios.estudiante'))  
+                elif dominio == 'conductor.com':
+                    return redirect(url_for('usuarios.conductor'))  
+                else:
+                    flash('Dominio de email no reconocido', 'error')
+
             else:
-                flash('Dominio de email no reconocido', 'error')
-
+                flash('Usuario o contraseña incorrectos', 'error')
         else:
             flash('Usuario o contraseña incorrectos', 'error')
 
