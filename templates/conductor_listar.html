@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Conductores</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lista_conductores.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Lista de Conductores</h1>
+
+        <a href="{{ url_for('conductores.crear_conductor') }}" class="btn btn-primary mb-3">Crear Nuevo Conductor</a>
+
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID del Conductor</th>
+                    <th>Primer Nombre</th>
+                    <th>Segundo Nombre</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>ID del Establecimiento</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for conductor in conductores %}
+                <tr>
+                    <td>{{ conductor.conductor_ID }}</td>
+                    <td>{{ conductor.pnombre_cond }}</td>
+                    <td>{{ conductor.snombre_cond }}</td>
+                    <td>{{ conductor.appaterno_cond }}</td>
+                    <td>{{ conductor.apmaterno_cond }}</td>
+                    <td>{{ conductor.inst_ID }}</td>
+                    <td>
+                        <a href="{{ url_for('conductores.actualizar_conductor', conductor_ID=conductor.conductor_ID) }}" class="btn btn-info btn-sm">Actualizar</a> 
+                        <form method="POST" action="{{ url_for('conductores.eliminar_conductor', conductor_ID=conductor.conductor_ID) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este conductor?');">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

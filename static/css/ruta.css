@@ -1,0 +1,72 @@
+/*crear*/
+body {
+    background-color: #f8f9fa; 
+}
+
+h1 {
+    color: #007bff; 
+}
+
+.form-group {
+    margin-bottom: 15px; 
+}
+
+/*listar*/
+
+body {
+    background-color: #f8f9fa; 
+}
+
+h1 {
+    color: #007bff; 
+}
+
+.table th, .table td {
+    vertical-align: middle; 
+}
+
+/*actualizar*/
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+h1 {
+    color: #343a40;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.btn {
+    margin-right: 10px;
+}
+
+
+/*detalle*/
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+h1 {
+    color: #343a40;
+}
+
+.list-group-item {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+}
+
+.btn {
+    margin-right: 10px;
+}

@@ -1,0 +1,111 @@
+/* Reset de márgenes y paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo general del cuerpo */
+body {
+    font-family: Arial, sans-serif;
+    background: url('../img/fondo.jpg') no-repeat center center fixed;
+
+
+    background-size: cover; /* Asegura que la imagen ocupe todo el fondo */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    color: #fff; /* Asegura que el texto contraste con el fondo */
+}
+
+
+/* Contenedor de bienvenida */
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Logo */
+.logo-container img {
+    width: 350px; /* Tamaño grande para el logo */
+    margin-top: 50px;
+}
+
+/* Título de bienvenida */
+.welcome-text {
+    margin-top: 30px;
+    color: #333;
+    font-size: 1.5em;
+}
+
+/* Botón de inicio de sesión */
+.btn-container {
+    margin-top: 30px;
+}
+
+.btn-iniciar {
+    background-color: #ff4081;
+    color: white;
+    font-size: 1.2em;
+    padding: 15px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s;
+}
+
+.btn-iniciar:hover {
+    background-color: #e3005e;
+}
+
+/* Footer oculto inicialmente */
+footer {
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 0.8em;
+    background-color: #65008c;
+    padding: 10px 0;
+    position: absolute;
+    bottom: -100px; /* Inicialmente fuera de la pantalla */
+    transition: bottom 0.5s ease-in-out; /* Transición suave al mostrar el footer */
+}
+
+footer.show {
+    bottom: 0; /* Cuando tiene la clase 'show', se muestra en la parte inferior */
+}
+
+.redes a {
+    color: white;
+    font-size: 1.5em;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.derechos {
+    margin-top: 10px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+    .logo-container img {
+        width: 400px;
+    }
+
+    .btn-iniciar {
+        font-size: 1em;
+    }
+
+    .welcome-text {
+        font-size: 1.2em;
+    }
+}

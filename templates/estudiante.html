@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudiante</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/conductorr.css') }}">
+    <script>
+        let map;
+        let directionsService;
+        let directionsRenderer;
+
+        function iniciarMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 8
+            });
+
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+        }
+
+        function buscarRutasCercanas() {
+            const direccion = document.getElementById("inicio").value;
+
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'address': direccion }, function(results, status) {
+                if (status === 'OK') {
+                    const latitud = results[0].geometry.location.lat();
+                    const longitud = results[0].geometry.location.lng();
+
+                    fetch('/buscar_rutas', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ latitud: latitud, longitud: longitud })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Verificar si hay rutas antes de mostrarlas
+                        if (data.rutas && data.rutas.length > 0) {
+                            mostrarRutasEnMapa(data.rutas); 
+                        } else {
+                            console.log("No se encontraron rutas."); 
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al buscar rutas:", error);
+                    });
+
+                } else {
+                    alert('Error al geocodificar la dirección: ' + status);
+                }
+            });
+        }
+
+        function mostrarRutasEnMapa(rutas) {
+            directionsRenderer.setDirections({ routes: [] });
+
+            rutas.forEach(ruta => {
+                const decodedPath = google.maps.geometry.encoding.decodePath(ruta.puntos);
+                directionsRenderer.setDirections({
+                    routes: [{ overview_path: decodedPath }]
+                });
+            });
+        }
+
+        // Asegúrate de que el script se ejecuta después de que se cargue el DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            // Llamar a la función iniciarMap cuando cargue la página
+            iniciarMap();
+
+            // Evento para el botón de búsqueda
+            document.getElementById("calcularRuta").addEventListener("click", function() {
+                buscarRutasCercanas();
+            });
+        });
+    </script>
+</head>
+<body>
+    
+    <div class="barra-superior">
+        <button class="boton cerrar-sesion" onclick="location.href='/'">Cerrar Sesión</button>
+    </div>
+    
+    <div class="mapa-container">
+        <div id="map" style="height: 500px;"></div>
+
+        <!-- Controles para ingresar dirección -->
+        <div class="ruta-form">
+            <div class="form-group">
+                <label for="inicio">Ingresa tu dirección</label>
+                <input id="inicio" type="text" placeholder="Punto de inicio">
+                <button id="calcularRuta" class="boton" onclick="buscarRutasCercanas()">Buscar Rutas Disponibles</button>
+            </div>
+        </div>
+
+        <!-- Contenedor para mostrar las rutas cercanas -->
+        <div id="rutasDisponibles" class="rutas-container"></div>
+    </div>
+
+    <div class="barra-inferior">
+        <button class="boton" onclick="location.href='/historial_viajes'">Historial  de Viajes</button>
+    </div>
+
+    <!-- Script de Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6SxCAe5Cb6q5vqXc7moZUpPluEyHwND4&libraries=places&callback=iniciarMap" async defer></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
+  

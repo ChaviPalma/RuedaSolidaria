@@ -1,0 +1,78 @@
+/* Reset de márgenes y padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo para el contenedor principal */
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Estilo para los encabezados */
+h1 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    text-align: center;
+}
+
+/* Estilo para los botones */
+.btn {
+    margin-right: 10px;
+}
+
+/* Estilo para las listas de detalles */
+.list-group-item {
+    font-size: 1.1rem;
+}
+
+/* Estilo para formularios */
+.form-group label {
+    font-weight: bold;
+}
+
+/* Alertas de mensajes */
+.alert {
+    margin-top: 15px;
+}
+
+/* Estilo para el pie de página */
+footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* Personalización de botones de Bootstrap */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
