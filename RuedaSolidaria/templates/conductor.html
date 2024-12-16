@@ -59,56 +59,161 @@
         }
 
 
-        // Función para enviar la ruta al backend
-        function guardarRutaEnBaseDeDatos() {
-            // 1. Obtener la información de la ruta desde la API de Google Maps
-            const directions = directionsRenderer.getDirections();
-          
-            if (directions) {
-              const ruta = directions.routes[0];
-              const origen = ruta.legs[0].start_address;
-              const destino = ruta.legs[0].end_address;
-          
-              // Acceder a la propiedad overview_path correctamente
-              const puntos = ruta.overview_path.map(punto => ({
-                lat: punto.lat(),
-                lng: punto.lng()
-              }));
-          
-              const cupos = parseInt(document.getElementById("cupos").value); // Asegúrate de que cupos sea un número
-          
-              // 2.  Enviar la información al backend
-              fetch('/guardar_ruta', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    origen: origen,
-                    destino: destino,
-                    puntos: puntos,
-                    cupos_disponibles: cupos
-                  })
-                })
-                .then(response => {
-                  if (response.ok || response.status === 201) {
-                    return response.json();
-                  } else {
-                    // Lanzar un error con el código de estado y el mensaje del servidor
-                    throw new Error(`Error ${response.status}: ${response.statusText}`);
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Conductor</title>
+            <link rel="stylesheet" href="{{ url_for('static', filename='css/conductorr.css') }}">
+            <script>
+                let map;
+                let directionsService;
+                let directionsRenderer;
+                let rutaGuardada = null; // Variable para almacenar la ruta calculada
+        
+                // Inicializar el mapa y los servicios de direcciones
+                function iniciarMap() {
+                    map = new google.maps.Map(document.getElementById("map"), {
+                        center: { lat: -34.397, lng: 150.644 }, // Cambia las coordenadas iniciales según tu preferencia
+                        zoom: 8
+                    });
+        
+                    directionsService = new google.maps.DirectionsService();
+                    directionsRenderer = new google.maps.DirectionsRenderer();
+                    directionsRenderer.setMap(map);
+        
+                    // Evento para calcular la ruta cuando se hace clic en el botón
+                    document.getElementById("calcularRuta").addEventListener("click", function() {
+                        const inicio = document.getElementById("inicio").value;
+                        const destino = document.getElementById("destino").value;
+                        const cupos = document.getElementById("cupos").value; // Obtener el valor de los cupos
+                        calcularYMostrarRuta(inicio, destino, cupos);
+                    });
+        
+                    // Evento para guardar la ruta cuando se hace clic en el botón
+                    document.getElementById("guardarRuta").addEventListener("click", function() {
+                        if (rutaGuardada) {
+                            guardarRutaEnBaseDeDatos(rutaGuardada);
+                        } else {
+                            alert("Primero debes calcular una ruta.");
+                        }
+                    });
+                }
+        
+                // Función para calcular y mostrar la ruta
+                function calcularYMostrarRuta(inicio, destino, cupos) {
+                    const request = {
+                        origin: inicio,
+                        destination: destino,
+                        travelMode: 'DRIVING'
+                    };
+        
+                    directionsService.route(request, function(result, status) {
+                        if (status === 'OK') {
+                            directionsRenderer.setDirections(result);
+                            rutaGuardada = result.routes[0]; // Almacena la ruta calculada
+                        } else {
+                            alert("No se pudo calcular la ruta: " + status);
+                        }
+                    });
+                }
+        
+        
+                // Función para enviar la ruta al backend
+                function guardarRutaEnBaseDeDatos() {
+                    // 1. Obtener la información de la ruta desde la API de Google Maps
+                    const directions = directionsRenderer.getDirections();
+                  
+                    if (directions) {
+                      const ruta = directions.routes[0];
+                      const origen = ruta.legs[0].start_address;
+                      const destino = ruta.legs[0].end_address;
+                  
+                      // Acceder a la propiedad overview_path correctamente
+                      const puntos = ruta.overview_path.map(punto => ({
+                        lat: punto.lat(),
+                        lng: punto.lng()
+                      }));
+                  
+                      const cupos = parseInt(document.getElementById("cupos").value); // Asegúrate de que cupos sea un número
+                  
+                      // 2.  Enviar la información al backend
+                      fetch('/guardar_ruta', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            origen: origen,
+                            destino: destino,
+                            puntos: puntos,
+                            cupos_disponibles: cupos
+                          })
+                        })
+                        .then(response => {
+                          if (response.ok || response.status === 201) {
+                            return response.json();
+                          } else {
+                            // Lanzar un error con el código de estado y el mensaje del servidor
+                            throw new Error(`Error ${response.status}: ${response.statusText}`);
+                          }
+                        })
+                        .then(data => {
+                          console.log('Respuesta del servidor:', data);
+                          alert("Ruta guardada exitosamente");
+                        })
+                        .catch(error => {
+                          console.error("Error al guardar la ruta:", error);
+                          // Mostrar un mensaje de error al usuario
+                          alert(`Error al guardar la ruta: ${error.message}`);
+                        });
+                    } else {
+                      alert("Primero debes calcular una ruta.");
+                    }
                   }
-                })
-                .then(data => {
-                  console.log('Respuesta del servidor:', data);
-                  alert("Ruta guardada exitosamente");
-                })
-                .catch(error => {
-                  console.error("Error al guardar la ruta:", error);
-                  // Mostrar un mensaje de error al usuario
-                  alert(`Error al guardar la ruta: ${error.message}`);
-                });
-            } else {
-              alert("Primero debes calcular una ruta.");
-            }
-          }
+            </script>
+        </head>
+        <body>
+            
+            <div class="barra-superior">
+                <button class="boton cerrar-sesion" onclick="location.href='/'">Cerrar Sesión</button>
+            </div>
+            
+            
+            
+            <div class="mapa-container">
+                <div id="map" style="height: 500px;"></div>
+        
+                <!-- Controles para ingresar puntos de inicio y destino -->
+                <div class="ruta-form">
+                    <div class="form-group">
+                        <label for="inicio">Punto de inicio</label>
+                        <input id="inicio" type="text" placeholder="Punto de inicio">
+                    </div>
+                    <div class="form-group">
+                        <label for="destino">Punto de destino</label>
+                        <input id="destino" type="text" placeholder="Punto de destino">
+                    </div>
+                    <div class="form-group">
+                        <label for="cupos">Número de cupos</label>
+                        <input id="cupos" type="number" placeholder="Número de cupos" min="1" required>
+                    </div>
+                    
+                    <button id="calcularRuta" class="boton">Calcular Ruta</button>
+                    <button id="guardarRuta" class="boton">Guardar Ruta</button> <!-- Botón para guardar la ruta -->
+                </div>
+            </div>
+        
+            <div class="barra-inferior">
+                
+                <button class="boton" onclick="location.href='/historial_viajes'">Historial de Viajes</button>
+                <button class="boton" onclick="location.href='/gestionar_rutas'">Gestionar mis rutas</button>
+            </div>
+        
+            <!-- Script de Google Maps -->
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6SxCAe5Cb6q5vqXc7moZUpPluEyHwND4&libraries=places&callback=iniciarMap" async defer></script>
+            <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        </body>
+        </html>
     </script>
 </head>
 <body>

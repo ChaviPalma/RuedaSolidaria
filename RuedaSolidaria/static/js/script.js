@@ -1,12 +1,5 @@
-// Código existente para la animación de texto
+// Código para la animación de mi  texto
 let app = document.getElementById('typewriter');
-
-// Incluir la biblioteca Typewriter
-const script = document.createElement('script');
-script.src = 'https://cdn.jsdelivr.net/npm/typewriter-effect@latest/dist/core.js';
-document.head.appendChild(script);
-
-script.onload = () => {
 
 let typewriter = new Typewriter(app, {
   loop: true,
@@ -19,31 +12,31 @@ typewriter
   .pauseFor(200)
   .deleteChars(10)
   .start();
-};
-// Función para inicializar el mapa y los servicios de direcciones
+
+// inicio el mapa y para las direcciones
 function iniciarMap() {
-  // Configuración inicial del mapa
+  
   const coord = { lat: -41.4859308, lng: -73.0027962 };
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 10,
     center: coord,
   });
 
-  // Inicializar DirectionsService y DirectionsRenderer
+  // aquie se esta iniciando el DirectionsService y DirectionsRenderer
   directionsService = new google.maps.DirectionsService();
   directionsRenderer = new google.maps.DirectionsRenderer();
   directionsRenderer.setMap(map);
 
-  // Evento para calcular la ruta cuando se hace clic en el botón
+  // evento para calcular la ruta cuando se presiona en el botón
   document.getElementById("calcularRuta").addEventListener("click", function() {
     const inicio = document.getElementById("inicio").value;
     const destino = document.getElementById("destino").value;
-    const cupos = document.getElementById("cupos").value; // Obtener el valor de los cupos
+    const cupos = document.getElementById("cupos").value; 
     calcularYMostrarRuta(inicio, destino, cupos);
   });
 }
 
-// Función para calcular y mostrar la ruta
+// función para calcular y mostrar la ruta con ayuda del gran chat :)
 function calcularYMostrarRuta(inicio, destino, cupos) {
   const request = {
     origin: inicio,
@@ -54,7 +47,6 @@ function calcularYMostrarRuta(inicio, destino, cupos) {
   directionsService.route(request, function(result, status) {
     if (status === 'OK') {
       directionsRenderer.setDirections(result);
-      // Guardar la ruta en tu base de datos
       guardarRutaEnBaseDeDatos(result.routes[0], inicio, destino, cupos);
     } else {
       alert("No se pudo calcular la ruta: " + status);
@@ -62,6 +54,40 @@ function calcularYMostrarRuta(inicio, destino, cupos) {
   });
 }
 
+// función para enviar la ruta al backend
+function guardarRutaEnBaseDeDatos(ruta, inicio, destino, cupos) {
+  const puntos = ruta.overview_path.map(punto => ({
+      lat: punto.lat(),
+      lng: punto.lng()
+  }));
+
+  fetch('/guardar_ruta', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+          origen: inicio,
+          destino: destino,
+          puntos: puntos,
+          cupos_disponibles: cupos 
+      })
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+  })
+  .then(data => {
+      console.log(data); 
+      alert("Ruta guardada exitosamente");
+  })
+  .catch(error => {
+      console.error("Error al guardar la ruta:", error);
+  });
+}
+
+
+window.onload = iniciarMap;
 
 let currentSlide = 0;
 
@@ -75,9 +101,7 @@ function moveCarousel(direction) {
 
 function updateCarousel() {
     const carouselInner = document.querySelector('.carousel-inner');
-    if (carouselInner) {
-        carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }
+    carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -90,15 +114,15 @@ function cargarRutas() {
       method: 'GET',
       success: function(data) {
           var rutaContainer = $('#ruta-container');
-          rutaContainer.empty();  // Limpia el contenedor antes de llenarlo
+          rutaContainer.empty();  
 
-          // Asegúrate de que 'data' es un arreglo
+          
           if (Array.isArray(data)) {
               data.forEach(function(ruta) {
                   rutaContainer.append('<div class="ruta-card">' +
-                      '<h3>origen: ' + ruta.origen + '</h3>' +  // Esto ahora coincide
-                      '<p>destino: ' + ruta.destino + '</p>' +  // Esto ahora coincide
-                      '<p>cupos_disponibles: ' + ruta.cupos_disponibles + '</p>' +  // Esto ahora coincide
+                      '<h3>origen: ' + ruta.origen + '</h3>' +  
+                      '<p>destino: ' + ruta.destino + '</p>' +  
+                      '<p>cupos_disponibles: ' + ruta.cupos_disponibles + '</p>' +  
                       '</div>');
               });
           } else {
@@ -109,6 +133,19 @@ function cargarRutas() {
           console.error("Error al cargar las rutas:", xhr);
       }
   });
- 
-
 }
+
+
+
+
+window.addEventListener('scroll', function() {
+  var footer = document.querySelector('footer');
+  var scrollPosition = window.scrollY;
+
+  // Si el scroll es mayor que 100px, muestra el footer
+  if (scrollPosition > 100) {
+      footer.classList.add('show');
+  } else {
+      footer.classList.remove('show');
+  }
+});
