@@ -5,29 +5,29 @@ from modelo.ruta import Ruta,db
 ruta_blueprint = Blueprint('ruta', __name__)
 
 @ruta_blueprint.route('/guardar_ruta', methods=['POST'])
+
 def guardar_ruta():
-    data = request.get_json()
-    
-    # Validar que se reciban los datos necesarios
-    if not data or 'origen' not in data or 'destino' not in data or 'puntos' not in data or 'cupos_disponibles' not in data:
-        return jsonify({'message': 'Faltan datos de origen, destino, puntos o cupos disponibles'}), 400
-
-    origen = data['origen']
-    destino = data['destino']
-    puntos = data['puntos']  # Obtener los puntos
-    cupos_disponibles = data['cupos_disponibles']  # Obtener el número de cupos disponibles
-
-    # Crear una nueva ruta con los datos proporcionados
-    nueva_ruta = Ruta(origen=origen, destino=destino, puntos=puntos, cupos_disponibles=cupos_disponibles)
-
     try:
+        data = request.get_json()  # Obtener los datos en formato JSON
+        origen = data.get('origen')
+        destino = data.get('destino')
+        puntos = data.get('puntos')
+        cupos_disponibles = data.get('cupos_disponibles')
+
+        # Aquí guardas la ruta en la base de datos
+        nueva_ruta = Ruta(
+            origen=origen,
+            destino=destino,
+            puntos=puntos,
+            cupos_disponibles=cupos_disponibles
+        )
         db.session.add(nueva_ruta)
         db.session.commit()
-        return jsonify({'message': 'Ruta guardada exitosamente'}), 201
+
+        # Enviar una respuesta sin mostrar JSON crudo
+        return jsonify({'message': 'Ruta guardada exitosamente'}), 200  # Enviar solo un mensaje de éxito
     except Exception as e:
-        db.session.rollback()
-        print(f"Error al guardar la ruta: {e}")  # Agregar registro del error
-        return jsonify({'message': 'Error al guardar la ruta', 'error': str(e)}), 500
+        return jsonify({'message': 'Error al guardar la ruta', 'error': str(e)}), 500  # Error si ocurre algún problema
 
 @ruta_blueprint.route('/buscar_rutas', methods=['POST'])
 def buscar_rutas():

@@ -7,8 +7,7 @@ from modelo.ruta import db
 from controlador.alumno_controlador import alumnos_bp
 from controlador.administrador_controlador import administradores_bp
 from controlador.asignacion_controlador import asignacion_bp
-from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy()
+
 
 
 
