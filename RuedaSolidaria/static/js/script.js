@@ -54,7 +54,6 @@ function calcularYMostrarRuta(inicio, destino, cupos) {
   });
 }
 
-// Función para enviar la ruta al backend
 function guardarRutaEnBaseDeDatos(ruta, inicio, destino, cupos) {
   const puntos = ruta.overview_path.map(punto => ({
       lat: punto.lat(),
@@ -75,17 +74,17 @@ function guardarRutaEnBaseDeDatos(ruta, inicio, destino, cupos) {
       if (!response.ok) {
           throw new Error('Network response was not ok ' + response.statusText);
       }
-      return response.json();
+      return response.json();  // Aquí recogemos la respuesta JSON del servidor
   })
   .then(data => {
-      console.log(data); // Agregar esto para ver la respuesta del servidor
-      alert("Ruta guardada exitosamente");
+      console.log(data);  // Opcional, para depuración
+      alert(data.message);  // Mostrar solo el mensaje amigable del backend
   })
   .catch(error => {
       console.error("Error al guardar la ruta:", error);
+      alert("Hubo un error al guardar la ruta.");
   });
 }
-
 // Asegúrate de llamar a la función iniciarMap cuando cargue la página
 window.onload = iniciarMap;
 
@@ -110,27 +109,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function cargarRutas() {
   $.ajax({
-      url: '/gestionar_rutas',
-      method: 'GET',
-      success: function(data) {
-          var rutaContainer = $('#ruta-container');
-          rutaContainer.empty();  // Limpia el contenedor antes de llenarlo
+    url: '/gestionar_rutas',
+    method: 'GET',
+    success: function(data) {
+      var rutaContainer = $('#ruta-container');
+      rutaContainer.empty();  
 
-          // Asegúrate de que 'data' es un arreglo
-          if (Array.isArray(data)) {
-              data.forEach(function(ruta) {
-                  rutaContainer.append('<div class="ruta-card">' +
-                      '<h3>origen: ' + ruta.origen + '</h3>' +  // Esto ahora coincide
-                      '<p>destino: ' + ruta.destino + '</p>' +  // Esto ahora coincide
-                      '<p>cupos_disponibles: ' + ruta.cupos_disponibles + '</p>' +  // Esto ahora coincide
-                      '</div>');
-              });
-          } else {
-              console.error("Los datos devueltos no son un arreglo:", data);
-          }
-      },
-      error: function(xhr) {
-          console.error("Error al cargar las rutas:", xhr);
+      if (Array.isArray(data)) {
+        data.forEach(function(ruta) {
+          // Crear una card para cada ruta
+          var card = $('<div class="ruta-card"></div>');
+          card.append('<h3>Origen: ' + ruta.origen + '</h3>');
+          card.append('<p>Destino: ' + ruta.destino + '</p>');
+          card.append('<p>Cupos disponibles: ' + ruta.cupos_disponibles + '</p>');
+
+          // Agregar la card al contenedor
+          rutaContainer.append(card);
+        });
+      } else {
+        console.error("Los datos devueltos no son un arreglo:", data);
       }
+    },
+    error: function(xhr) {
+      console.error("Error al cargar las rutas:", xhr);
+    }
   });
 }

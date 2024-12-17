@@ -3,44 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gestionar Rutas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/gestionar.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
 
-    <div id="ruta-container">
-        <!-- Las rutas se agregarán aquí mediante JavaScript -->
-    </div>
+    <div id="ruta-container"></div> <!-- Aquí se van a mostrar las rutas -->
+
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    function cargarRutas() {
-        $.ajax({
-            url: '/gestionar_rutas',
-            method: 'GET',
-            success: function(data) {
-                var rutaContainer = $('#ruta-container');
-                rutaContainer.empty();  // Limpia el contenedor antes de llenarlo
+        function cargarRutas() {
+            $.ajax({
+                url: '/gestionar_rutas',
+                method: 'GET',
+                success: function(data) {
+                    var rutaContainer = $('#ruta-container');
+                    rutaContainer.empty();  // Limpiar el contenedor antes de llenarlo
+            
+                    // Verifica si `data` tiene el formato esperado (arreglo de rutas)
+                    console.log(data); // Añadir esto para comprobar qué datos están llegando
+            
+                    data.forEach(function(ruta) {
+                        rutaContainer.append(`
+                            <div class="ruta-card">
+                                <h3>Origen: ${ruta.origen}</h3>
+                                <p>Destino: ${ruta.destino}</p>
+                                <p>Cupos Disponibles: ${ruta.cupos_disponibles}</p>
+                            </div>
+                        `);
+                    });
+                },
+                error: function(xhr) {
+                    console.error("Error al cargar las rutas:", xhr);
+                }
+            });
+        }
+        
     
-                data.forEach(function(ruta) {
-                    rutaContainer.append('<div class="ruta-card">' +
-                        '<h3>origen: ' + ruta.Origen + '</h3>' +
-                        '<p>destino: ' + ruta.Destino + '</p>' +
-                        '<p>cupos_disponibles: ' + ruta.Cupos_disponibles + '</p>' +
-                        '</div>');
-                });
-            },
-            error: function(xhr) {
-                console.error("Error al cargar las rutas:", xhr);
-            }
-        });
-    }
-    
-    // Llama a la función al cargar la página
+    // Llama a la función para cargar las rutas cuando se cargue la página
     $(document).ready(function() {
         cargarRutas();
     });
     </script>
+
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    </body>
+</body>
 </html>
