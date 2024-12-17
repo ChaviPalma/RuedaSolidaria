@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignar Viaje</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/conductorr.css') }}">
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="alert alert-dismissible fade show" role="alert">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+    
+    <div class="formulario-asignacion">
+        <h2>Asignar Viaje</h2>
+        <form method="POST">
+            <div class="form-group">
+                <label for="alumno_id">ID del Alumno:</label>
+                <input type="text" name="alumno_id" id="alumno_id" required>
+            </div>
+
+            <div class="form-group">
+                <label for="ruta_id">Selecciona una Ruta:</label>
+                <select name="ruta_id" id="ruta_id" required>
+                    <option value="">Seleccione una ruta</option>
+                    {% for ruta in rutas %}
+                        <option value="{{ ruta.id }}">{{ ruta.origen }} - {{ ruta.destino }} (Cupos: {{ ruta.cupos_disponibles }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="conductor_id">Selecciona un Conductor:</label>
+                <select name="conductor_id" id="conductor_id" required>
+                    <option value="">Seleccione un conductor</option>
+                    {% for conductor in conductores %}
+                        <option value="{{ conductor.conductor_ID }}">{{ conductor.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="boton">Asignar Viaje</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="barra-inferior">
+        <button class="boton" onclick="location.href='/historial_viajes'">Historial de Viajes</button>
+    </div>
+</body>
+</html>

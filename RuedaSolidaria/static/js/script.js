@@ -1,14 +1,6 @@
 // Código existente para la animación de texto
 let app = document.getElementById('typewriter');
-
-// Incluir la biblioteca Typewriter
-const script = document.createElement('script');
-script.src = 'https://cdn.jsdelivr.net/npm/typewriter-effect@latest/dist/core.js';
-document.head.appendChild(script);
-
-script.onload = () => {
-
-let typewriter = new Typewriter(app, {
+let typewriter = new typewriter(app, {
   loop: true,
   delay: 75,
 });
@@ -19,7 +11,7 @@ typewriter
   .pauseFor(200)
   .deleteChars(10)
   .start();
-};
+
 // Función para inicializar el mapa y los servicios de direcciones
 function iniciarMap() {
   // Configuración inicial del mapa
@@ -62,6 +54,40 @@ function calcularYMostrarRuta(inicio, destino, cupos) {
   });
 }
 
+// Función para enviar la ruta al backend
+function guardarRutaEnBaseDeDatos(ruta, inicio, destino, cupos) {
+  const puntos = ruta.overview_path.map(punto => ({
+      lat: punto.lat(),
+      lng: punto.lng()
+  }));
+
+  fetch('/guardar_ruta', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+          origen: inicio,
+          destino: destino,
+          puntos: puntos,
+          cupos_disponibles: cupos // Incluir la cantidad de cupos
+      })
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+  })
+  .then(data => {
+      console.log(data); // Agregar esto para ver la respuesta del servidor
+      alert("Ruta guardada exitosamente");
+  })
+  .catch(error => {
+      console.error("Error al guardar la ruta:", error);
+  });
+}
+
+// Asegúrate de llamar a la función iniciarMap cuando cargue la página
+window.onload = iniciarMap;
 
 let currentSlide = 0;
 
@@ -75,9 +101,7 @@ function moveCarousel(direction) {
 
 function updateCarousel() {
     const carouselInner = document.querySelector('.carousel-inner');
-    if (carouselInner) {
-        carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }
+    carouselInner.style.transform = `translateX(-${currentSlide * 100}%)`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -109,6 +133,4 @@ function cargarRutas() {
           console.error("Error al cargar las rutas:", xhr);
       }
   });
- 
-
 }
