@@ -1,7 +1,6 @@
-// Código para la animación de mi  texto
+// Código existente para la animación de texto
 let app = document.getElementById('typewriter');
-
-let typewriter = new Typewriter(app, {
+let typewriter = new typewriter(app, {
   loop: true,
   delay: 75,
 });
@@ -13,30 +12,30 @@ typewriter
   .deleteChars(10)
   .start();
 
-// inicio el mapa y para las direcciones
+// Función para inicializar el mapa y los servicios de direcciones
 function iniciarMap() {
-  
+  // Configuración inicial del mapa
   const coord = { lat: -41.4859308, lng: -73.0027962 };
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 10,
     center: coord,
   });
 
-  // aquie se esta iniciando el DirectionsService y DirectionsRenderer
+  // Inicializar DirectionsService y DirectionsRenderer
   directionsService = new google.maps.DirectionsService();
   directionsRenderer = new google.maps.DirectionsRenderer();
   directionsRenderer.setMap(map);
 
-  // evento para calcular la ruta cuando se presiona en el botón
+  // Evento para calcular la ruta cuando se hace clic en el botón
   document.getElementById("calcularRuta").addEventListener("click", function() {
     const inicio = document.getElementById("inicio").value;
     const destino = document.getElementById("destino").value;
-    const cupos = document.getElementById("cupos").value; 
+    const cupos = document.getElementById("cupos").value; // Obtener el valor de los cupos
     calcularYMostrarRuta(inicio, destino, cupos);
   });
 }
 
-// función para calcular y mostrar la ruta con ayuda del gran chat :)
+// Función para calcular y mostrar la ruta
 function calcularYMostrarRuta(inicio, destino, cupos) {
   const request = {
     origin: inicio,
@@ -47,6 +46,7 @@ function calcularYMostrarRuta(inicio, destino, cupos) {
   directionsService.route(request, function(result, status) {
     if (status === 'OK') {
       directionsRenderer.setDirections(result);
+      // Guardar la ruta en tu base de datos
       guardarRutaEnBaseDeDatos(result.routes[0], inicio, destino, cupos);
     } else {
       alert("No se pudo calcular la ruta: " + status);
@@ -54,7 +54,7 @@ function calcularYMostrarRuta(inicio, destino, cupos) {
   });
 }
 
-// función para enviar la ruta al backend
+// Función para enviar la ruta al backend
 function guardarRutaEnBaseDeDatos(ruta, inicio, destino, cupos) {
   const puntos = ruta.overview_path.map(punto => ({
       lat: punto.lat(),
@@ -68,7 +68,7 @@ function guardarRutaEnBaseDeDatos(ruta, inicio, destino, cupos) {
           origen: inicio,
           destino: destino,
           puntos: puntos,
-          cupos_disponibles: cupos 
+          cupos_disponibles: cupos // Incluir la cantidad de cupos
       })
   })
   .then(response => {
@@ -78,7 +78,7 @@ function guardarRutaEnBaseDeDatos(ruta, inicio, destino, cupos) {
       return response.json();
   })
   .then(data => {
-      console.log(data); 
+      console.log(data); // Agregar esto para ver la respuesta del servidor
       alert("Ruta guardada exitosamente");
   })
   .catch(error => {
@@ -86,7 +86,7 @@ function guardarRutaEnBaseDeDatos(ruta, inicio, destino, cupos) {
   });
 }
 
-
+// Asegúrate de llamar a la función iniciarMap cuando cargue la página
 window.onload = iniciarMap;
 
 let currentSlide = 0;
@@ -114,15 +114,15 @@ function cargarRutas() {
       method: 'GET',
       success: function(data) {
           var rutaContainer = $('#ruta-container');
-          rutaContainer.empty();  
+          rutaContainer.empty();  // Limpia el contenedor antes de llenarlo
 
-          
+          // Asegúrate de que 'data' es un arreglo
           if (Array.isArray(data)) {
               data.forEach(function(ruta) {
                   rutaContainer.append('<div class="ruta-card">' +
-                      '<h3>origen: ' + ruta.origen + '</h3>' +  
-                      '<p>destino: ' + ruta.destino + '</p>' +  
-                      '<p>cupos_disponibles: ' + ruta.cupos_disponibles + '</p>' +  
+                      '<h3>origen: ' + ruta.origen + '</h3>' +  // Esto ahora coincide
+                      '<p>destino: ' + ruta.destino + '</p>' +  // Esto ahora coincide
+                      '<p>cupos_disponibles: ' + ruta.cupos_disponibles + '</p>' +  // Esto ahora coincide
                       '</div>');
               });
           } else {
@@ -134,18 +134,3 @@ function cargarRutas() {
       }
   });
 }
-
-
-
-
-window.addEventListener('scroll', function() {
-  var footer = document.querySelector('footer');
-  var scrollPosition = window.scrollY;
-
-  // Si el scroll es mayor que 100px, muestra el footer
-  if (scrollPosition > 100) {
-      footer.classList.add('show');
-  } else {
-      footer.classList.remove('show');
-  }
-});

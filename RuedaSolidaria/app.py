@@ -6,14 +6,15 @@ from controlador.gestionar_ruta import gestionar_ruta_blueprint
 from modelo.ruta import db 
 from controlador.alumno_controlador import alumnos_bp
 from controlador.administrador_controlador import administradores_bp
+from controlador.asignacion_controlador import asignacion_bp
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
 
-
-import mysql.connector
 
 
 app = Flask(__name__)
 app.secret_key = 'admin123'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:loki@localhost:3306/RuedaSolidaria'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost:3306/RuedaSolidaria'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app) 
@@ -22,6 +23,7 @@ app.register_blueprint(conductores_bp)
 
 app.register_blueprint(ruta_blueprint)  
 app.register_blueprint(gestionar_ruta_blueprint)  
+app.register_blueprint(asignacion_bp)
 
 
 

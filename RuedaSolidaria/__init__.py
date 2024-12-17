@@ -8,7 +8,7 @@ def create_app():
     app = Flask(__name__, template_folder='../templates')
     
     # Configuración de la base de datos
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:loki@localhost:3306/RuedaSolidaria'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root@localhost:3306/RuedaSolidaria'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = 'secret-key'  
 

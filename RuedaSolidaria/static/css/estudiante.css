@@ -1,81 +1,105 @@
-/* Color principal en tonos celestes */
+/* Estilo general del cuerpo */
 body {
     font-family: Arial, sans-serif;
-    background-color: #e0f7fa;
+    background-color: #f5f5f5; /* Color de fondo neutro */
     margin: 0;
     padding: 0;
+    color: #333;
 }
 
+/* Estilo de la barra superior */
+.barra-superior {
+    background-color: #0288d1; /* Color de fondo de la barra */
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end; /* Alinear el botón a la derecha */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    position: relative; /* Posicionamiento para el z-index */
+    z-index: 1000; /* Asegurar que esté encima del contenido */
+}
+
+.boton.cerrar-sesion {
+    background-color: #ffffff; /* Fondo blanco para el botón */
+    color: #0288d1; /* Color de texto */
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Estilo del contenedor del mapa */
 .mapa-container {
     text-align: center;
     padding: 20px;
+    margin-top: 10px; /* Espacio para la barra superior */
+    margin-bottom: 80px; /* Margen inferior para evitar superposición con la barra inferior */
 }
+
+/* Estilo del mapa */
 #map {
-	height: 500px;
-	width: 100%;
-}
-
-.mapa-container img {
     width: 100%;
-    max-width: 600px;
-    border-radius: 8px;
-}
-
-/* Sección de autos disponibles */
-.autos-disponibles {
-    padding: 20px;
-    background-color: #ffffff; /* Fondo blanco */
-    text-align: center;
-    margin-bottom: 70px; /* Agregar margen inferior para evitar superposición con la barra */
-}
-
-.autos-disponibles h2 {
-    color: #0288d1;
-    font-size: 24px;
-}
-
-.autos {
-    display: flex;
-    flex-direction: column; /* Alinea los elementos en columna */
-    gap: 15px;
-    align-items: center; /* Centra los elementos horizontalmente */
-}
-
-.auto {
-    background-color: #4fc3f7;
+    height: 400px; /* Altura del mapa */
     border-radius: 10px;
-    padding: 15px;
-    width: 250px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: left;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
-.auto p {
-    margin: 5px 0;
-    color: #ffffff;
+/* Estilo del formulario */
+.ruta-form {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 0 auto; /* Centrado automático */
+    width: 90%; /* Ancho responsivo */
+    max-width: 600px; /* Ancho máximo */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Barra inferior */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Estilo de la barra inferior */
 .barra-inferior {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #0288d1;
+    background-color: rgba(2, 136, 209, 0.9); /* Color de fondo de la barra con opacidad */
     padding: 10px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-around; /* Espaciado equitativo entre botones */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .boton {
-    background-color: #ffffff;
-    color: #0288d1;
+    background-color: #ffffff; /* Fondo blanco para los botones */
+    color: #0288d1; /* Color de texto */
     border: none;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .boton:hover {
-    background-color: #b3e5fc;
+    background-color: #b3e5fc; /* Color de fondo al pasar el mouse */
+}
+
+/* Estilo adicional para mejorar la apariencia */
+* {
+    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
 }

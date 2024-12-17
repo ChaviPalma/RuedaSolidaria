@@ -1,5 +1,5 @@
-import mysql.connector
 from collections import namedtuple
+import mysql.connector
 
 class AlumnoModel:
     def __init__(self):
@@ -11,10 +11,13 @@ class AlumnoModel:
         )
         self.cursor = self.connection.cursor()
 
-    def crear_alumno(self, alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID):
+    def crear_alumno(self, alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID, foto=None):
         try:
-            query = "INSERT INTO Alumnos (alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID) VALUES (%s, %s, %s, %s, %s, %s)"
-            self.cursor.execute(query, (alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID))
+            query = """
+            INSERT INTO Alumnos (alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID, foto)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """
+            self.cursor.execute(query, (alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID, foto))
             self.connection.commit()
         except mysql.connector.Error as err:
             print(f"Error: {err}")
@@ -22,10 +25,14 @@ class AlumnoModel:
             self.cursor.close()
             self.connection.close()
 
-    def actualizar_alumno(self, alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID):
+    def actualizar_alumno(self, alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID, foto=None):
         try:
-            query = "UPDATE Alumnos SET pnombre_alum = %s, snombre_alum = %s, apaterno_alum = %s, amaterno_alum = %s, inst_ID = %s WHERE alumno_ID = %s"
-            self.cursor.execute(query, (pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID, alumno_ID))
+            query = """
+            UPDATE Alumnos 
+            SET pnombre_alum = %s, snombre_alum = %s, apaterno_alum = %s, amaterno_alum = %s, inst_ID = %s, foto = %s
+            WHERE alumno_ID = %s
+            """
+            self.cursor.execute(query, (pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID, foto, alumno_ID))
             self.connection.commit()
         except mysql.connector.Error as err:
             print(f"Error: {err}")
@@ -46,12 +53,11 @@ class AlumnoModel:
 
     def listar_alumnos(self):
         try:
-            query = "SELECT alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID FROM Alumnos"
+            query = "SELECT alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID, foto FROM Alumnos"
             self.cursor.execute(query)
             alumnos = self.cursor.fetchall()
 
-            # Define la namedtuple para alumnos
-            Alumno = namedtuple('Alumno', 'alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID')
+            Alumno = namedtuple('Alumno', 'alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID, foto')
             alumnos = [Alumno(*alumno) for alumno in alumnos]
 
             return alumnos
@@ -64,13 +70,12 @@ class AlumnoModel:
 
     def buscar_alumno(self, alumno_ID):
         try:
-            query = "SELECT * FROM Alumno WHERE alumno_ID = %s"
+            query = "SELECT * FROM Alumnos WHERE alumno_ID = %s"
             self.cursor.execute(query, (alumno_ID,))
             alumno_data = self.cursor.fetchone() 
             if alumno_data:
-                # Crea la namedtuple aquí
-                Alumno = namedtuple('Alumno', 'alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID')
-                alumno = Alumno(*alumno_data)  # Convierte la tupla en un objeto Alumno
+                Alumno = namedtuple('Alumno', 'alumno_ID, pnombre_alum, snombre_alum, apaterno_alum, amaterno_alum, inst_ID, foto')
+                alumno = Alumno(*alumno_data)
                 return alumno 
             else:
                 return None
